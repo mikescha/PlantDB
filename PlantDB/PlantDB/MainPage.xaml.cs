@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using PlantDB.Database;
 
@@ -44,5 +40,21 @@ namespace PlantDB
             PlantsListView.ItemsSource = plants;
 
         }
+
+        private async void ToggleCartPlants_Clicked(object sender, EventArgs e)
+        {
+            List<Plant> p = await App.PlantData.GetPlantsInCartAsync();
+            plants = new ObservableCollection<Plant>(p);
+            myLabel.Text = "Now showing plants in shopping cart";
+            PlantsListView.ItemsSource = plants;
+        }
+
+        private async void ToggleCartStatus_Clicked(object sender, EventArgs e)
+        {
+            Plant p = (Plant) PlantsListView.SelectedItem;
+            p.InCart = p.InCart == 1 ? 0 : 1;
+            await App.PlantData.SavePlantAsync(p);
+        }
+
     }
 }

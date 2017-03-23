@@ -30,5 +30,18 @@ namespace PlantDB.Database
                 .ToListAsync();
         }
 
+        public Task<List<Plant>> GetPlantsInCartAsync()
+        {
+            return database.Table<Plant>()
+                .Where(p => p.InCart.Equals(1))
+                .ToListAsync();
+        }
+
+        public Task<int> SavePlantAsync(Plant p)
+        {
+            return database.UpdateAsync(p);
+        }
+
+
     }
 }

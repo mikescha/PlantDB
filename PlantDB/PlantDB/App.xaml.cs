@@ -14,6 +14,7 @@ namespace PlantDB
         public App(string dbPath)
         {
             InitializeComponent();
+
             PlantData = new PlantDatabase(dbPath);
 
             MainPage = new PlantDB.MainPage();
