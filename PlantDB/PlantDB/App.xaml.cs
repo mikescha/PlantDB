@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Xamarin.Forms;
+using PlantDB.Database;
 
 namespace PlantDB
 {
     public partial class App : Application
     {
-        public App()
+        public static PlantDatabase PlantData { get; set; }
+
+        public App(string dbPath)
         {
             InitializeComponent();
-             
+            PlantData = new PlantDatabase(dbPath);
+
             MainPage = new PlantDB.MainPage();
         }
 

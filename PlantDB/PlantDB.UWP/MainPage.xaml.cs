@@ -20,8 +20,9 @@ namespace PlantDB.UWP
         public MainPage()
         {
             this.InitializeComponent();
+            string dbPath = FileAccessHelper.GetLocalFilePath("miniplant.db3");
 
-            LoadApplication(new PlantDB.App());
+            LoadApplication(new PlantDB.App(dbPath));
         }
     }
 }
