@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PlantDB.PageAbout"
+             Title="About">
+
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness" iOS="0, 20, 0, 0" WinPhone="0,5,5,10" Android="5,5,5,5"/>
+    </ContentPage.Padding>
+
+    <Label Text="Go Native! Plants of California"
+           Style="{DynamicResource TitleStyle}"
+           VerticalTextAlignment="Center"
+           HorizontalTextAlignment="Center" />
+
+</ContentPage>

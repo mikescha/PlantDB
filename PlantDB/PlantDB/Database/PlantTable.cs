@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.ComponentModel;
+
 using SQLite;
 
 namespace PlantDB.Database
 {
-    public class PlantDatabase
+    public class PlantDatabase : INotifyPropertyChanged
     {
         readonly SQLiteAsyncConnection database;
 
@@ -42,6 +44,14 @@ namespace PlantDB.Database
             return database.UpdateAsync(p);
         }
 
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            this.PropertyChanged?.Invoke(this,
+                new PropertyChangedEventArgs(propertyName));
+        }
 
     }
 }

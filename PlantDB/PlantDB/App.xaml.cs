@@ -15,9 +15,15 @@ namespace PlantDB
         {
             InitializeComponent();
 
+            // Load the resource dictionary where we keep all the style definitions
+            if (Application.Current.Resources == null)
+            {
+                Application.Current.Resources = new ResourceDictionary();
+            }
+
             PlantData = new PlantDatabase(dbPath);
 
-            MainPage = new PlantDB.MainPage();
+            MainPage = new NavigationPage(new PageTopLevel());
         }
 
         protected override void OnStart()
