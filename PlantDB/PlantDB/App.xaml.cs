@@ -12,7 +12,7 @@ namespace PlantDB
         public App()
         {
             InitializeComponent();
-
+             
             MainPage = new PlantDB.MainPage();
         }
 
