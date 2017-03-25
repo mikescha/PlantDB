@@ -11,31 +11,21 @@ namespace PlantDB
         public PagePlantList()
         {
             InitializeComponent();
-            myLabel.Text = "Your plants, sir:";
         }
 
         private async void AllPlants_Clicked(object sender, EventArgs e)
         {
             PlantsListView.ItemsSource = await App.PlantData.GetAllPlantsAsync();
-             
-            myLabel.Text = "Now showing all plants";
-
         }
 
         private async void SomePlants_Clicked(object sender, EventArgs e)
         {
             PlantsListView.ItemsSource = await App.PlantData.GetSomePlantsAsync();
-
-            myLabel.Text = "Now showing --some-- plants";
-
         }
 
         private async void ToggleCartPlants_Clicked(object sender, EventArgs e)
         {
             PlantsListView.ItemsSource = await App.PlantData.GetPlantsInCartAsync();
-
-            myLabel.Text = "Now showing plants in shopping cart";
-
         }
 
         private async void ToggleCartStatus_Clicked(object sender, EventArgs e)
@@ -50,5 +40,10 @@ namespace PlantDB
             PlantsListView.ItemsSource = await App.PlantData.GetAllPlantsAsync();
         }
 
+        private async void EmptyCart_Clicked(object sender, EventArgs e)
+        {
+            await App.PlantData.EmptyCart();
+
+        }
     }
 }

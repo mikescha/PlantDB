@@ -47,11 +47,25 @@ namespace PlantDB.Database
         /* More Complex Actions */
         public async Task<bool> ToggleCartStatusAsync(Plant p)
         {
-            p.InCart = p.InCart == 1 ? 0 : 1;
+            p.InCart = p.InCart > 0 ? 0 : 1;
             return await SavePlantAsync(p) > 0 ? true : false;
         }
-        
-            
+
+        public async Task<bool> EmptyCart()
+        {
+            // Get the list of plants that are currently in the cart
+            List<Plant> cart = await GetPlantsInCartAsync();
+
+            //Walk the list, clear each item, and then save it back
+            foreach (Plant p in cart)
+            {
+                p.InCart = 0;
+                await SavePlantAsync(p);
+            }
+            return true;
+        }
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
