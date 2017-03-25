@@ -40,9 +40,7 @@ namespace PlantDB
 
         private async void ToggleCartStatus_Clicked(object sender, EventArgs e)
         {
-            Plant p = (Plant) PlantsListView.SelectedItem;
-            p.InCart = p.InCart == 1 ? 0 : 1;
-            await App.PlantData.SavePlantAsync(p);
+            await App.PlantData.ToggleCartStatusAsync((Plant)PlantsListView.SelectedItem);
         }
 
 

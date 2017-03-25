@@ -44,6 +44,14 @@ namespace PlantDB.Database
             return database.UpdateAsync(p);
         }
 
+        /* More Complex Actions */
+        public async Task<bool> ToggleCartStatusAsync(Plant p)
+        {
+            p.InCart = p.InCart == 1 ? 0 : 1;
+            return await SavePlantAsync(p) > 0 ? true : false;
+        }
+        
+            
 
         public event PropertyChangedEventHandler PropertyChanged;
 
