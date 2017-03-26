@@ -1,11 +1,11 @@
 ﻿using SQLite;
 using System.ComponentModel;
 
-namespace PlantDB.Database  
+namespace PlantDB.Data  
 {
     [Table("PlantDB")]
 
-    public class Plant : INotifyPropertyChanged
+    public partial class Plant : INotifyPropertyChanged
     {
         [PrimaryKey, AutoIncrement]
         [Column("ID")]

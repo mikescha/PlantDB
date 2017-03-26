@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xamarin.Forms;
-using PlantDB.Database;
+using PlantDB.Data;
 
 namespace PlantDB
 {
     public partial class App : Application
     {
-        public static PlantDatabase PlantData { get; set; }
+        public static PlantViewModel PlantData { get; set; }
 
         public App(string dbPath)
         {
@@ -21,7 +21,7 @@ namespace PlantDB
                 Application.Current.Resources = new ResourceDictionary();
             }
 
-            PlantData = new PlantDatabase(dbPath);
+            PlantData = new PlantViewModel(dbPath);
 
             MainPage = new NavigationPage(new PageTopLevel());
         }

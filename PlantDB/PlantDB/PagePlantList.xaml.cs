@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
-using PlantDB.Database;
+using PlantDB.Data;
 
 namespace PlantDB
 {
@@ -13,37 +13,34 @@ namespace PlantDB
             InitializeComponent();
         }
 
-        private async void AllPlants_Clicked(object sender, EventArgs e)
+        private void AllPlants_Clicked(object sender, EventArgs e)
         {
-            PlantsListView.ItemsSource = await App.PlantData.GetAllPlantsAsync();
+            App.PlantData.ShowPlantsByMonth(FloweringMonths.AllMonths);
         }
 
-        private async void SomePlants_Clicked(object sender, EventArgs e)
+        private void SomePlants_Clicked(object sender, EventArgs e)
         {
-            PlantsListView.ItemsSource = await App.PlantData.GetSomePlantsAsync();
+            App.PlantData.ShowPlantsByMonth(FloweringMonths.Feb);
         }
 
-        private async void ToggleCartPlants_Clicked(object sender, EventArgs e)
+        private void ShowCartPlants_Clicked(object sender, EventArgs e)
         {
-            PlantsListView.ItemsSource = await App.PlantData.GetPlantsInCartAsync();
+            App.PlantData.ShowCartPlants();
         }
 
         private async void ToggleCartStatus_Clicked(object sender, EventArgs e)
         {
-            await App.PlantData.ToggleCartStatusAsync((Plant)PlantsListView.SelectedItem);
+            App.PlantData.ToggleCartStatus((Plant)PlantsListView.SelectedItem);
         }
-
-
+        
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            PlantsListView.ItemsSource = await App.PlantData.GetAllPlantsAsync();
         }
 
         private async void EmptyCart_Clicked(object sender, EventArgs e)
         {
-            await App.PlantData.EmptyCart();
-
+            App.PlantData.EmptyCart();
         }
     }
 }

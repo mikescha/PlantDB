@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.ComponentModel;
-
 using SQLite;
 
-namespace PlantDB.Database
+namespace PlantDB.Data
 {
     public class PlantDatabase : INotifyPropertyChanged
     {
@@ -25,10 +24,10 @@ namespace PlantDB.Database
             return database.Table<Plant>().ToListAsync();
         }
 
-        public Task<List<Plant>> GetSomePlantsAsync()
+        public Task<List<Plant>> GetMonthPlantsAsync(string month)
         {
             return database.Table<Plant>()
-                .Where(p => p.FloweringMonths.Contains("Jun"))
+                .Where(p => p.FloweringMonths.Contains(month))
                 .ToListAsync();
         }
 

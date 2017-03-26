@@ -38,8 +38,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Database\PlantCore.cs" />
     <Compile Include="Database\Plant.cs" />
     <Compile Include="Database\PlantTable.cs" />
+    <Compile Include="Database\PlantViewModel.cs" />
+    <Compile Include="NotifyTask.cs" />
     <Compile Include="PagePlantList.xaml.cs">
       <DependentUpon>PagePlantList.xaml</DependentUpon>
     </Compile>

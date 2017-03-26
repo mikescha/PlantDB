@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:PlantDB"
              x:Class="PlantDB.PagePlantList"
-             Title="List">
-
+             Title="List"
+             BindingContext="{x:Static local:App.PlantData}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -15,25 +15,29 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                     Orientation="Horizontal"
-                     HorizontalOptions="Center">
-            <Button x:Name="AllPlants"
-                    Text="All Plants"
-                    Clicked="AllPlants_Clicked"/>
-            <Button x:Name="SomePlants"
-                    Text="Some Plants"
-                    Clicked="SomePlants_Clicked"/>
-            <Button x:Name="ToggleCartPlants"
-                    Text="Show Cart Plants"
-                    Clicked="ToggleCartPlants_Clicked"/>
-            <Button x:Name="EmptyCart"
-                    Text="Empty Cart"
-                    Clicked="EmptyCart_Clicked"/>
-    </StackLayout>
-        
+        <StackLayout>
+            <Label Text="{Binding PlantCount}"/>
+            <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                         Orientation="Horizontal"
+                         HorizontalOptions="Center">
+                <Button x:Name="AllPlants"
+                        Text="All Plants"
+                        Clicked="AllPlants_Clicked"/>
+                <Button x:Name="SomePlants"
+                        Text="Some Plants"
+                        Clicked="SomePlants_Clicked"/>
+                <Button x:Name="ToggleCartPlants"
+                        Text="Show Cart Plants"
+                        Clicked="ShowCartPlants_Clicked"/>
+                <Button x:Name="EmptyCart"
+                        Text="Empty Cart"
+                        Clicked="EmptyCart_Clicked"/>
+            </StackLayout>
+        </StackLayout>
+
         <StackLayout Grid.Row="1" Grid.Column="0">
-            <ListView x:Name="PlantsListView">
+            <ListView x:Name="PlantsListView"
+                      ItemsSource="{Binding PlantList.Result}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
