@@ -31,13 +31,13 @@
                         Clicked="ShowCartPlants_Clicked"/>
                 <Button x:Name="EmptyCart"
                         Text="Empty Cart"
-                        Clicked="EmptyCart_Clicked"/>
+                        Command="{Binding EmptyCartCmd}"/>
             </StackLayout>
         </StackLayout>
 
         <StackLayout Grid.Row="1" Grid.Column="0">
             <ListView x:Name="PlantsListView"
-                      ItemsSource="{Binding PlantList.Result}">
+                      ItemsSource="{Binding PlantList}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

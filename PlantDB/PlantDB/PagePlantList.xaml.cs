@@ -28,7 +28,7 @@ namespace PlantDB
             App.PlantData.ShowCartPlants();
         }
 
-        private async void ToggleCartStatus_Clicked(object sender, EventArgs e)
+        private void ToggleCartStatus_Clicked(object sender, EventArgs e)
         {
             App.PlantData.ToggleCartStatus((Plant)PlantsListView.SelectedItem);
         }
@@ -38,9 +38,9 @@ namespace PlantDB
             base.OnAppearing();
         }
 
-        private async void EmptyCart_Clicked(object sender, EventArgs e)
+        /*private async void EmptyCart_Clicked(object sender, EventArgs e)
         {
             App.PlantData.EmptyCart();
-        }
+        }*/
     }
 }

@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+ * Basic stuff we'll need to work with the plants. This will have enums and other fundamental building blocks
+ * that describe plants.
+ */
 namespace PlantDB.Data
 {
     public partial class Plant

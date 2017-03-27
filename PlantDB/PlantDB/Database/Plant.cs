@@ -1,6 +1,9 @@
 ﻿using SQLite;
 using System.ComponentModel;
 
+/* Basic definition of what a Plant is. 
+ * First part is the table definition. Potentially more stuff will go below that as needed.
+ */
 namespace PlantDB.Data  
 {
     [Table("PlantDB")]

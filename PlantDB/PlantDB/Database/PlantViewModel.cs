@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace PlantDB.Data
 {
     public class PlantViewModel : INotifyPropertyChanged
     {
-        public NotifyTask<ObservableCollection<Plant>> plantList;
+        public ObservableCollection<Plant> plantList;
         public int plantCount;
         public static PlantDatabase PlantData { get; set; }
 
@@ -19,39 +21,29 @@ namespace PlantDB.Data
         public PlantViewModel(string dbPath)
         {
             PlantData = new PlantDatabase(dbPath);
-            PlantList = NotifyTask.Create(GetPlantsAsync(FloweringMonths.AllMonths));
+            PlantList = GetPlantsByMonth(FloweringMonths.AllMonths);
         }
 
         public void ShowPlantsByMonth(FloweringMonths month)
         {
-            PlantList = NotifyTask.Create(GetPlantsAsync(month));
+            PlantList = GetPlantsByMonth(month);
         }
 
         public void ShowCartPlants()
         {
-            PlantList = NotifyTask.Create(GetCartPlantsAsync());
+            PlantList = GetCartPlants();
         }
 
-        public void ToggleCartStatus(Plant p)
-        {
-            NotifyTask.Create(ToggleCartStatusAsync(p));
-        }
-
-        public void EmptyCart()
-        {
-            NotifyTask.Create(EmptyCartAsync());
-        }
-
-        private async Task<ObservableCollection<Plant>> GetPlantsAsync(FloweringMonths month)
+        private ObservableCollection<Plant> GetPlantsByMonth(FloweringMonths month)
         {
             List<Plant> p;
             if (month == FloweringMonths.AllMonths)
             {
-                p = await PlantData.GetAllPlantsAsync();
+                p = PlantData.GetAllPlants();
             }
             else if (FloweringMonths.AllMonths.HasFlag(month))
             {
-                p = await PlantData.GetMonthPlantsAsync(floweringMonthDict[month]);
+                p = PlantData.GetMonthPlants(floweringMonthDict[month]);
             }
             else
             {
@@ -63,25 +55,25 @@ namespace PlantDB.Data
             return new ObservableCollection<Plant>(p);
         }
 
-        private async Task<ObservableCollection<Plant>> GetCartPlantsAsync()
+        private ObservableCollection<Plant> GetCartPlants()
         {
             List<Plant> p;
-            p = await PlantData.GetPlantsInCartAsync();
+            p = PlantData.GetPlantsInCart();
             PlantCount = p.Count();
             return new ObservableCollection<Plant>(p);
         }
 
-        private async Task<bool> ToggleCartStatusAsync(Plant p)
+        public bool ToggleCartStatus(Plant p)
         {
-            return await PlantData.ToggleCartStatusAsync(p);   
+            return PlantData.ToggleCartStatus(p);   
         }
 
-        private async Task<bool> EmptyCartAsync()
+        private bool EmptyCart()
         {
-            return await PlantData.EmptyCart();
+            return PlantData.EmptyCart();
         }
 
-        public NotifyTask<ObservableCollection<Plant>> PlantList
+        public ObservableCollection<Plant> PlantList
         {
             get
             {
@@ -113,6 +105,25 @@ namespace PlantDB.Data
             }
         }
 
+
+        private Command emptyCart;
+        public ICommand EmptyCartCmd
+        {
+            get
+            {
+                if (emptyCart == null)
+                {
+                    emptyCart = new Command(() =>
+                    {
+                        EmptyCart();
+                    });
+                }
+                return emptyCart;
+            }
+        }
+
+
+        
         #region Dictionaries
         Dictionary<FloweringMonths, string> floweringMonthDict = new Dictionary<FloweringMonths, string>
         {
