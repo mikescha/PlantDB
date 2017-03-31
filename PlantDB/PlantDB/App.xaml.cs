@@ -9,7 +9,7 @@ namespace PlantDB
 {
     public partial class App : Application
     {
-        public static PlantViewModel PlantData { get; set; }
+        public static PlantListViewModel PlantData { get; set; }
 
         public App(string dbPath)
         {
@@ -21,7 +21,7 @@ namespace PlantDB
                 Application.Current.Resources = new ResourceDictionary();
             }
 
-            PlantData = new PlantViewModel(dbPath);
+            PlantData = new PlantListViewModel(dbPath);
 
             MainPage = new NavigationPage(new PageTopLevel());
         }

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
 
 /*
  * Basic stuff we'll need to work with the plants. This will have enums and other fundamental building blocks
@@ -10,8 +11,10 @@ using System.Threading.Tasks;
  */
 namespace PlantDB.Data
 {
-    public partial class Plant
+    public partial class Plant 
     {
+
+
 
     }
 
