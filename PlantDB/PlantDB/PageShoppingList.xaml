@@ -71,7 +71,9 @@
                       ItemsSource="{Binding PlantList}"
                       SeparatorVisibility="None"
                       BackgroundColor="{DynamicResource dividerColor}"
-                      HasUnevenRows="True">
+                      HasUnevenRows="True"
+                      IsGroupingEnabled="True"
+                      GroupDisplayBinding="{Binding Key}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell x:Name="textCell"

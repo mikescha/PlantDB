@@ -12,6 +12,21 @@ using PlantDB.Data;
 
 namespace PlantDB
 {
+    //Used for doing the grouping in the listview of plants
+    public class Grouping<K, T> : ObservableCollection<T>
+    {
+        public K Key { get; private set; }
+
+        public Grouping(K key, IEnumerable<T> items)
+        {
+            Key = key;
+            foreach (var item in items)
+            {
+                Items.Add(item);
+            }
+        }
+    }
+
     // Takes an int, and returns back PosText if the parameter was True, or ZeroText otherwise. 
     // One use: If the shopping cart count is zero, then format the list item a different color
     public class IntToStringConverter : IValueConverter

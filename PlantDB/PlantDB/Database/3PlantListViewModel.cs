@@ -15,8 +15,8 @@ namespace PlantDB.Data
     {
         public static PlantDatabase PlantData { get; set; }
 
-        private ObservableCollection<Plant> plantList;
-        public ObservableCollection<Plant> PlantList
+        private ObservableCollection<Grouping<string, Plant>> plantList;
+        public ObservableCollection<Grouping<string, Plant>> PlantList
         {
             get
             {
@@ -64,10 +64,18 @@ namespace PlantDB.Data
         }
 
         //Refreshes the plant list and all other data associated with it
-        private void SetPlantList(List<Plant> p)
+        private void SetPlantList(List<Plant> newList)
         {
-            PlantList = new ObservableCollection<Plant>(p);
-            PlantCount = p.Count();
+            //PlantList = new ObservableCollection<Plant>(p);
+
+            var sorted = from p in newList
+                         orderby p.ScientificName
+                         group p by p.Type into plantGroups
+                         select new Grouping<string, Plant>(plantGroups.Key, plantGroups);
+            
+            PlantList = new ObservableCollection<Grouping<string, Plant>>(sorted);
+
+            PlantCount = newList.Count();
         }
 
         public void GetPlantsByMonth(FloweringMonths month)
