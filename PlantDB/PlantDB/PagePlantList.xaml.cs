@@ -19,5 +19,11 @@ namespace PlantDB
             InitializeComponent();
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            App.PlantData.GetPlantsByMonth(FloweringMonths.AllMonths);
+            PlantsListView.SelectedItem = null;
+        }
     }
 }

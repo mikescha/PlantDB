@@ -70,7 +70,7 @@ namespace PlantDB.Data
             PlantCount = p.Count();
         }
 
-        private void GetPlantsByMonth(FloweringMonths month)
+        public void GetPlantsByMonth(FloweringMonths month)
         {
             List<Plant> p;
             if (month == FloweringMonths.AllMonths)
@@ -99,7 +99,7 @@ namespace PlantDB.Data
             SetPlantList(p);
         }
 
-        private void GetCartPlants()
+        public void GetCartPlants()
         {
             List<Plant> p;
             p = PlantData.GetPlantsInCart();
@@ -145,6 +145,7 @@ namespace PlantDB.Data
             }
         }
 
+/* Needed any more?
         private Command showCartPlantsCmd;
         public ICommand ShowCartPlantsCmd
         {
@@ -157,7 +158,7 @@ namespace PlantDB.Data
                 return showCartPlantsCmd;
             }
         }
-
+*/
         private Command emptyCart;
         public ICommand EmptyCartCmd
         {

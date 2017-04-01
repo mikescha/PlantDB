@@ -16,5 +16,13 @@ namespace PlantDB
         {
             InitializeComponent();
         }
+
+        //When the page loads, we want to update the list to show the current set of plants in the cart
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            App.PlantData.GetCartPlants();
+            PlantsListView.SelectedItem = null;
+        }
     }
 }

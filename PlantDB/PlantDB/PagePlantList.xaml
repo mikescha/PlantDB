@@ -64,12 +64,6 @@
                         Text="Some Plants"
                         Command="{Binding ShowSomePlantsCmd}"
                         CommandParameter="Dec"/>
-                <Button x:Name="ShowCartPlants"
-                        Text="Show Cart Plants"
-                        Command="{Binding ShowCartPlantsCmd}"/>
-                <Button x:Name="EmptyCart"
-                        Text="Empty Cart"
-                        Command="{Binding EmptyCartCmd}"/>
             </StackLayout>
         </StackLayout>
 
