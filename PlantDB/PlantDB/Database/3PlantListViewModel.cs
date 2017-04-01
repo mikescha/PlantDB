@@ -181,6 +181,11 @@ namespace PlantDB.Data
                         PlantData.ToggleCartStatus(p);
                         UpdateList();
                     });
+                    /*togglePlantCartStatusCmd = new Command<int>((id) =>
+                    {
+                        PlantData.ToggleCartStatus(id);
+                       UpdateList();
+                   });*/
                 }
                 return togglePlantCartStatusCmd;
             }

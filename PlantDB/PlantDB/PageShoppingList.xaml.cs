@@ -7,17 +7,14 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using PlantDB.Data;
-
 namespace PlantDB
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PagePlantList : ContentPage
+    public partial class PageShoppingList : ContentPage
     {
-        public PagePlantList()
+        public PageShoppingList()
         {
             InitializeComponent();
         }
-
     }
 }

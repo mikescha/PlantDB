@@ -5,7 +5,10 @@
             x:Class="PlantDB.PageTopLevel"
             Title="Go Native!">
 
+    <local:PageLocation/>
+    <local:PageCriteria/>
     <local:PagePlantList/>
+    <local:PageShoppingList/>
     <local:PageAbout/>
     
 </TabbedPage>
