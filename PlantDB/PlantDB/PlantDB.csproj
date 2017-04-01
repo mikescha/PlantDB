@@ -38,7 +38,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Database\4PlantDefs.cs" />
+    <Compile Include="Database\1PlantDefs.cs" />
     <Compile Include="Database\1Plant.cs" />
     <Compile Include="Database\2PlantTable.cs" />
     <Compile Include="Database\3PlantListViewModel.cs" />

@@ -16,14 +16,19 @@
             <local:IntToStringConverter x:Key="ColorIfInList" 
                                         PosText="#388E3C"
                                         ZeroText="#212121"/>
-            <local:PlantIDToStringConverter x:Key="ContextMenuText" 
-                                            RemoveText="Remove from Cart"
-                                            AddText="Add to Cart"/>
-            <!--<tools:ListToBoolConverter           x:Key="listToBoolConverter" />
-            <tools:ListToBoolConverterOpposite   x:Key="listToBoolConverterOpposite" />
-            <tools:ObjectToBoolConverter         x:Key="objectToBoolConverter" />
-            <tools:ObjectToBoolConverterOpposite x:Key="objectToBoolConverterOpposite" />
-            <tools:NumberToBoolConverter         x:Key="numberToBoolConverter" />
+            
+            <local:PlantCountToStringConverter x:Key="ContextMenuText" 
+                                               RemoveText="Remove from Cart"
+                                               AddText="Add to Cart"/>
+            
+            <local:ListToBoolConverter           x:Key="listToBoolConverter" />
+            <local:ListToBoolConverterOpposite   x:Key="listToBoolConverterOpposite" />
+            <local:ObjectToBoolConverter         x:Key="objectToBoolConverter" />
+            <local:ObjectToBoolConverterOpposite x:Key="objectToBoolConverterOpposite" />
+            <local:NumberToBoolConverter         x:Key="numberToBoolConverter" />
+            <local:NumberToBoolConverterOpposite x:Key="numberToBoolConverterOpposite" />
+
+            <!--
             <tools:PlantTypeToStringConverter    x:Key="plantTypeToStringConverter" />
 
             <tools:BoolToStringConverter x:Key="AddRemoveCartText" 
@@ -35,7 +40,7 @@
     </ContentPage.Resources>
     
     
-    <Grid>
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -45,6 +50,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <!--***** The header and button bar *****-->
         <StackLayout>
             <Label Text="{Binding PlantCount, StringFormat = '{0} matches'}"
                    Style="{StaticResource H1Style}"/>
@@ -67,7 +73,11 @@
             </StackLayout>
         </StackLayout>
 
+        <!--***** The list of plants *****-->
         <StackLayout Grid.Row="1" Grid.Column="0">
+            <Label Text="No plants in list"
+                   Style="{StaticResource H1Style}"
+                   IsVisible="{Binding Source={x:Reference PlantsListView}, Path=ItemsSource, Converter={StaticResource listToBoolConverter}}"/>
             <ListView x:Name="PlantsListView"
                       ItemsSource="{Binding PlantList}"
                       SeparatorVisibility="None"
@@ -76,40 +86,69 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell x:Name="textCell"
-                                  Text="{Binding PlantName}"
+                                  Text="{Binding NameInCart}"
                                   TextColor="{Binding InCart, Converter={StaticResource ColorIfInList}}">
                             <TextCell.ContextActions>
                                 <MenuItem Text="{Binding InCart, Converter={StaticResource ContextMenuText}}"
                                           Command="{Binding Source={x:Static local:App.PlantData}, Path=TogglePlantCartStatusCmd}"
                                           CommandParameter="{Binding Source={x:Reference PlantsListView}, Path=SelectedItem}"/>
                             </TextCell.ContextActions>
-                            
-<!--                        If I need to use a ViewCell to create a custom layout, then this is the outline of what I had before.
-                            But note that the docs say ViewCell is a lot worse on perf, so try to stick with TextCell or ImageCell.
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="{Binding PlantName}"
-                                       TextColor="{Binding InCart, Converter={StaticResource ColorIfInList}}"/>
-                            </StackLayout>-->
                         </TextCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
 
-        <StackLayout Grid.Row="1" Grid.Column="1">
-            <StackLayout x:Name="PlantDetailLayout" 
-                         BindingContext="{Binding Source={x:Reference PlantsListView}, Path=SelectedItem}">
-                <Label Text="{Binding PlantName}"/>
-                <Label Text="{Binding ScientificName}"/>
-                <Label Text="{Binding Type}"/>
-                <Label Text="{Binding FloweringMonths}"/>
-                <Label Text="{Binding Sun}"/>
-            </StackLayout>
+        <!--***** The plant detail view *****-->
+        <ScrollView Grid.Row="1" Grid.Column="1"
+                    IsVisible="{Binding Source={x:Reference PlantsListView}, Path=ItemsSource, Converter={StaticResource listToBoolConverterOpposite}}">
+            <StackLayout>
+                <Label x:Name="nothingSelectedLabel" 
+                       Style="{StaticResource H1Style}"
+                       Text="Select a plant to learn more about it."                    
+                       IsVisible="{Binding Source={x:Reference PlantsListView}, Path=SelectedItem, Converter={StaticResource objectToBoolConverter}}"/>
+                       <!-- ^^^IsVisible is true initially because nothing is selected by default. When something is selected then the binding changes to hide this-->
 
-            <Button Text="Toggle Cart Status"
-                    Command="{Binding TogglePlantCartStatusCmd}"
-                    CommandParameter="{Binding Source={x:Reference PlantsListView}, Path=SelectedItem}"/>
-        </StackLayout>
+                <StackLayout x:Name="PlantDetailLayout" 
+                             BindingContext="{Binding Source={x:Reference PlantsListView}, Path=SelectedItem}"
+                             IsVisible="{Binding Source={x:Reference PlantsListView}, Path=SelectedItem, Converter={StaticResource objectToBoolConverterOpposite}}">
+                    <Label Text="{Binding PlantName}"
+                           FontSize="Medium"/>
+                    <Label Text="{Binding ScientificName}" 
+                           FontAttributes="Italic"/>
+                    <Label Text="{Binding Type, StringFormat='Type of plant: {0}'}"/>
+                    <Label Text="{Binding FloweringMonths, StringFormat='Flowering months: {0}'}"/>
+                    <Label Text="{Binding Sun}, StringFormat='Sun requirements: {0}'}"/>
+
+                    <Label Text="How many do you want?"/>
+                    <StackLayout Orientation="Horizontal" 
+                                 HorizontalOptions="StartAndExpand"
+                                 VerticalOptions="Center">
+                        <Button Text="+"
+                                Command="{Binding Source={x:Static local:App.PlantData}, Path=IncrementPlantCountCmd}"
+                                CommandParameter="{Binding Source={x:Reference PlantsListView}, Path=SelectedItem}">
+                        </Button>
+
+                        <Entry Text="{Binding InCart, Mode=TwoWay}"  
+                               Keyboard="Numeric"/>
+
+                        <Button Text="-"
+                                Command="{Binding Source={x:Static local:App.PlantData}, Path=DecrementPlantCountCmd}"
+                                CommandParameter="{Binding Source={x:Reference PlantsListView}, Path=SelectedItem}"
+                                IsEnabled="{Binding InCart, Converter={StaticResource numberToBoolConverter}}">
+                        </Button>
+
+                        <Button Text="X"
+                                Command="{Binding Source={x:Static local:App.PlantData}, Path=RemoveItemCmd}"
+                                CommandParameter="{Binding Source={x:Reference PlantsListView}, Path=SelectedItem}"
+                                IsEnabled="{Binding InCart, Converter={StaticResource numberToBoolConverter}}">
+                        </Button>
+
+                        
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </Grid>
 
 </ContentPage>

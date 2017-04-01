@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using SQLite;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace PlantDB.Data
 {
@@ -51,32 +52,102 @@ namespace PlantDB.Data
 
         }
 
+        //Writes changes to the database
+        //Returns number of rows updated. This should always be just one, since a plant is only in the database once
         public int SavePlant(Plant p)
         {
             lock(collisionLock)
             {
-                return database.Update(p);
+                int result = database.Update(p);
+
+                if (result == 0)
+                {
+                    //!!TODO need to generate an exception, as this should never happen
+                }
+
+                return result;
             }
         }
 
-        /* More Complex Actions */
+        /*********** More Complex Actions ***********/
+
+        //If plant count was zero, then makes it one, and vice versa, then saves changes to DB
+        //Returns true if it succeeded. 
+
         public bool ToggleCartStatus(Plant p)
         {
             lock(collisionLock)
             {
-                p.InCart = p.InCart > 0 ? 0 : 1;
-                return SavePlant(p) > 0 ? true : false;
+                bool result;
+                if (p!= null)
+                {
+                    p.InCart = p.InCart > 0 ? 0 : 1;
+                    result = SavePlant(p) > 0 ? true : false;
+                }
+                else
+                {
+                    result = false;
+                }
+                return result;
             }
         }
 
+        //Convert an ID to a Plant object
+        public Plant GetPlantFromID(int id)
+        {
+            return database.Table<Plant>().FirstOrDefault(plant => plant.ID == id); 
+        }
+
+        //If plant count was zero, then makes it one, and vice versa, then saves changes to DB. Same as above but it takes the 
+        //plant's ID number instead of the plant object. 
+        //Returns true if it succeeded.
         public bool ToggleCartStatus(int id)
         {
             lock(collisionLock)
             {
-                Plant p = database.Table<Plant>().ElementAt(id);
+                Plant p = GetPlantFromID(id);
                 return ToggleCartStatus(p);
             }
         }
+
+        //If plant count was zero, then makes it one, and vice versa, then saves changes to DB
+        //Returns true if it succeeded.
+        public bool ZeroPlantCount(Plant p)
+        {
+            lock (collisionLock)
+            {
+                p.InCart = 0;
+                return SavePlant(p) > 0 ? true : false;
+            }
+        }
+
+        //If plant count was zero, then makes it one, and vice versa, then saves changes to DB
+        //Returns true if it succeeded.
+        public bool IncrementPlantCount(Plant p)
+        {
+            lock (collisionLock)
+            {
+                p.InCart++;
+                return SavePlant(p) > 0 ? true : false;
+            }
+        }
+
+        //If plant count was zero, then makes it one, and vice versa, then saves changes to DB
+        //Returns true if it succeeded.
+        public bool DecrementPlantCount(Plant p)
+        {
+            lock (collisionLock)
+            {
+                p.InCart--;
+
+                if (p.InCart < 0)
+                {
+                    //!!TODO need to generate an exception, as this should never happen
+                }
+                return SavePlant(p) > 0 ? true : false;
+            }
+        }
+
 
         public void EmptyCart()
         {
@@ -96,11 +167,11 @@ namespace PlantDB.Data
 
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string propertyName)
+        void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            this.PropertyChanged?.Invoke(this,
-                new PropertyChangedEventArgs(propertyName));
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
     }

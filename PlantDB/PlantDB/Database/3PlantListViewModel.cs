@@ -49,13 +49,18 @@ namespace PlantDB.Data
             }
         }
 
-        private view viewShowing; 
+        private ViewShowing viewShowing; 
 
         //Constructor. I initialize the list to all months by default
         public PlantListViewModel(string dbPath)
         {
             PlantData = new PlantDatabase(dbPath);
             GetPlantsByMonth(FloweringMonths.AllMonths);
+        }
+
+        public Plant GetPlantFromID(int ID)
+        {
+            return PlantData.GetPlantFromID(ID);
         }
 
         //Refreshes the plant list and all other data associated with it
@@ -71,12 +76,12 @@ namespace PlantDB.Data
             if (month == FloweringMonths.AllMonths)
             {
                 p = PlantData.GetAllPlants();
-                viewShowing = view.AllPlants;
+                viewShowing = ViewShowing.AllPlants;
             }
             else if (FloweringMonths.AllMonths.HasFlag(month))
             {
                 p = PlantData.GetMonthPlants(floweringMonthDict[month]);
-                viewShowing = view.SomePlants;
+                viewShowing = ViewShowing.SomePlants;
             }
             else
             {
@@ -90,7 +95,7 @@ namespace PlantDB.Data
         private void GetPlantsByMonth(string month)
         {
             List<Plant> p = PlantData.GetMonthPlants(month);
-            viewShowing = view.SomePlants;
+            viewShowing = ViewShowing.SomePlants;
             SetPlantList(p);
         }
 
@@ -98,13 +103,14 @@ namespace PlantDB.Data
         {
             List<Plant> p;
             p = PlantData.GetPlantsInCart();
-            viewShowing = view.Cart;
+            viewShowing = ViewShowing.Cart;
             SetPlantList(p);
         }
 
         private void UpdateList()
         {
-            if (viewShowing.HasFlag(view.Cart))
+            OnPropertyChanged("PlantList");
+            if (viewShowing.HasFlag(ViewShowing.Cart))
             {
                 GetCartPlants();
             }
@@ -181,16 +187,64 @@ namespace PlantDB.Data
                         PlantData.ToggleCartStatus(p);
                         UpdateList();
                     });
-                    /*togglePlantCartStatusCmd = new Command<int>((id) =>
-                    {
-                        PlantData.ToggleCartStatus(id);
-                       UpdateList();
-                   });*/
                 }
                 return togglePlantCartStatusCmd;
             }
         }
-                
+
+        //Command for clearing item from cart
+        private Command removeItemCmd;
+        public ICommand RemoveItemCmd
+        {
+            get
+            {
+                if (removeItemCmd == null)
+                {
+                    removeItemCmd = new Command<Plant>((p) =>
+                    {
+                        PlantData.ZeroPlantCount(p);
+                        UpdateList();
+                    });
+                }
+                return removeItemCmd;
+            }
+        }
+
+        //Command for adding one plant
+        private Command incrementPlantCountCmd;
+        public ICommand IncrementPlantCountCmd
+        {
+            get
+            {
+                if (incrementPlantCountCmd == null)
+                {
+                    incrementPlantCountCmd = new Command<Plant>((p) =>
+                    {
+                        PlantData.IncrementPlantCount(p);
+                        UpdateList();
+                    });
+                }
+                return incrementPlantCountCmd;
+            }
+        }
+
+        //Command for removing one plant
+        private Command decrementPlantCountCmd;
+        public ICommand DecrementPlantCountCmd
+        {
+            get
+            {
+                if (decrementPlantCountCmd == null)
+                {
+                    decrementPlantCountCmd = new Command<Plant>((p) =>
+                    {
+                        PlantData.DecrementPlantCount(p);
+                        UpdateList();
+                    });
+                }
+                return decrementPlantCountCmd;
+            }
+        }
 
         #region Dictionaries
         Dictionary<FloweringMonths, string> floweringMonthDict = new Dictionary<FloweringMonths, string>
@@ -203,7 +257,7 @@ namespace PlantDB.Data
         };
 
         [Flags]
-        private enum view
+        private enum ViewShowing
         {
             AllPlants = 1, SomePlants = 2, Cart = 4
         }

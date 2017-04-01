@@ -138,7 +138,11 @@ namespace PlantDB.Data
                 OnPropertyChanged();
             }
         }
-
+        
+        //Note that the only time we set the name in the cart is when the value changes. This works for the intial run because
+        //the InCart value is set after the Name is set because of the column order. If this ever got re-ordered so that InCart
+        //came before Name, then this code needs to change. Also, this assumes that the user is never allowed to change the 
+        //name of the plant.
         private int inCart;
         [Column("InCart")]
         public int InCart
@@ -152,6 +156,7 @@ namespace PlantDB.Data
             {
                 this.inCart = value;
                 OnPropertyChanged();
+                SetNameInCart(this);
             }
         }
 
