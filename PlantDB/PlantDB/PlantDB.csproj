@@ -42,6 +42,7 @@
     <Compile Include="Database\1Plant.cs" />
     <Compile Include="Database\2PlantTable.cs" />
     <Compile Include="Database\3PlantListViewModel.cs" />
+    <Compile Include="Database\Criteria.cs" />
     <Compile Include="NotifyTask.cs" />
     <Compile Include="PageCriteria.xaml.cs">
       <DependentUpon>PageCriteria.xaml</DependentUpon>

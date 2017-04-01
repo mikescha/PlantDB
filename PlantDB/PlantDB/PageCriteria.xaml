@@ -20,7 +20,21 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Text="Criteria Page"/>
+        <!--***** The header and button bar *****-->
+        <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Label Text="{Binding PlantCount, StringFormat = '{0} matches'}"
+                   Style="{StaticResource H1Style}"/>
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center">
+                <Button x:Name="AllPlants"
+                        Text="All Plants"
+                        Command="{Binding ShowAllPlantsCmd}"/>
+                <Button x:Name="SomePlants"
+                        Text="Some Plants"
+                        Command="{Binding ShowSomePlantsCmd}"
+                        CommandParameter="Dec"/>
+            </StackLayout>
+        </StackLayout>
     </Grid>
 
 </ContentPage>
