@@ -90,6 +90,7 @@ namespace PlantDB.Data
                     {
                         TargetPlant.FloweringMonths = FloweringMonths.Apr;
                         TargetPlant.PlantTypes = PlantTypes.Bush;
+                        TargetPlant.Sun = SunRequirements.Partial;
                         SetPlantList();
                     });
                 }

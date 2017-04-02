@@ -31,6 +31,7 @@ namespace PlantDB.Data
                 newList = newList
                             .Where(p => IncludesMonths(TargetPlant.FloweringMonths, p.FloweringMonths))
                             .Where(p => IncludesTypes(TargetPlant.PlantTypes, p.PlantType))
+                            .Where(p => IncludesSun(TargetPlant.Sun, p.Sun))
                             .ToList();
             }
 
@@ -84,6 +85,16 @@ namespace PlantDB.Data
             return result || wanted.HasFlag(PlantTypes.AllPlantTypes);
         }
 
+        // Returns true if the any of the sun types contained in Wanted matches any of the sun types in candidate
+        // e.g. if Wanted = "Full or Partial" and Test = "Partial" then true
+        //      if Wanted = "Shade" and Test = "Full or Partial" then false
+        private bool IncludesSun(SunRequirements wanted, SunRequirements candidate)
+        {
+            return (wanted.HasFlag(SunRequirements.Full) && candidate.HasFlag(SunRequirements.Full)) ||
+                   (wanted.HasFlag(SunRequirements.Partial) && candidate.HasFlag(SunRequirements.Partial)) ||
+                   (wanted.HasFlag(SunRequirements.Shade) && candidate.HasFlag(SunRequirements.Shade)) ||
+                   (wanted.HasFlag(SunRequirements.AllSunTypes));
+        }
         #endregion Includes operations
 
 

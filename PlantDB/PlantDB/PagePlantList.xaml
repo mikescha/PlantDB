@@ -101,9 +101,9 @@
                            FontSize="Medium"/>
                     <Label Text="{Binding ScientificName}" 
                            FontAttributes="Italic"/>
-                    <Label Text="{Binding Type, StringFormat='Type of plant: {0}'}"/>
+                    <Label Text="{Binding PlantTypeString, StringFormat='Type of plant: {0}'}"/>
                     <Label Text="{Binding FloweringMonths, StringFormat='Flowering months: {0}'}"/>
-                    <Label Text="{Binding Sun}, StringFormat='Sun requirements: {0}'}"/>
+                    <Label Text="{Binding SunString, StringFormat='Sun requirements: {0}'}"/>
 
                     <Label Text="How many do you want?"/>
                     <StackLayout Orientation="Horizontal" 

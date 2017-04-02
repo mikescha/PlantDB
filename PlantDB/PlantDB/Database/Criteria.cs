@@ -9,10 +9,6 @@ namespace PlantDB.Data
 {
     public class Criteria : INotifyPropertyChanged
     {
-        //Fields
-        FloweringMonths floweringMonths;
-        PlantTypes plantTypes;
-
         //Constructor -- set all the defaults to whatever we want the starting state to be, as the criteria gets
         //applied every time the list is drawn
         public Criteria()
@@ -24,9 +20,12 @@ namespace PlantDB.Data
         {
             FloweringMonths = FloweringMonths.AllMonths;
             PlantTypes = PlantTypes.AllPlantTypes;
+            Sun = SunRequirements.AllSunTypes;
+
         }
 
-
+        #region fields
+        FloweringMonths floweringMonths;
         public FloweringMonths FloweringMonths
         {
             set
@@ -40,7 +39,7 @@ namespace PlantDB.Data
             get { return floweringMonths; }
         }
 
-
+        PlantTypes plantTypes;
         public PlantTypes PlantTypes
         {
             set
@@ -53,6 +52,21 @@ namespace PlantDB.Data
             }
             get { return plantTypes; }
         }
+
+        SunRequirements sun;
+        public SunRequirements Sun
+        {
+            set
+            {
+                if (sun != value)
+                {
+                    sun = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return sun; }
+        }
+        #endregion fields
 
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged([CallerMemberName] string propertyName = "")
