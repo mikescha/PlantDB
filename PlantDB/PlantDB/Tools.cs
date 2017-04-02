@@ -27,6 +27,50 @@ namespace PlantDB
         }
     }
 
+
+    // Takes a SunType, and returns back a pretty string
+    public class SunToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string s;
+
+            switch ((SunRequirements) value)
+            {
+                case SunRequirements.AllSunTypes:
+                    s = "Any amount of sun";
+                    break;
+                case SunRequirements.Partial:
+                    s = "Partial sun";
+                    break;
+                case SunRequirements.Shade:
+                    s = "Most or full shade";
+                    break;
+                case SunRequirements.Full:
+                    s = "Full or mostly sun";
+                    break;
+                case SunRequirements.Partial | SunRequirements.Full:
+                    s = "Full sun to partial sun";
+                    break;
+                case SunRequirements.Partial | SunRequirements.Shade:
+                    s = "Partial sun to full shade";
+                    break;
+
+                default:
+                    s = value.ToString();
+                    break;
+            }
+
+            return s;
+        }
+
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return false;
+        }
+    }
+
     // Takes an int, and returns back PosText if the parameter was True, or ZeroText otherwise. 
     // One use: If the shopping cart count is zero, then format the list item a different color
     public class IntToStringConverter : IValueConverter

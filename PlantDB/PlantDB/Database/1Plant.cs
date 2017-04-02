@@ -152,18 +152,6 @@ namespace PlantDB.Data
             {
                 this.sun = value;
                 OnPropertyChanged();
-
-                string s;
-                switch (value)
-                {
-                    case SunRequirements.AllSunTypes:
-                        s = "Any";
-                        break;
-                    default:
-                        s = value.ToString();
-                        break;
-                }
-                SunString = s;
             }
         }
         
@@ -214,28 +202,7 @@ namespace PlantDB.Data
             }
         }
 
-        private string sunString;
-        public string SunString
-        {
-            get
-            {
-                return sunString;
-            }
 
-            private set
-            {
-                if (value != null)
-                {
-                    sunString = value;
-                }
-                else
-                {
-                    //TODO why does this happen? I only set this from PlantType but sometimes it's getting set from external code
-                    ;
-                }
-
-            }
-        }
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {

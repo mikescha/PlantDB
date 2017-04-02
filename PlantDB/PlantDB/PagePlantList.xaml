@@ -27,6 +27,7 @@
             <local:ObjectToBoolConverterOpposite x:Key="objectToBoolConverterOpposite" />
             <local:NumberToBoolConverter         x:Key="numberToBoolConverter" />
             <local:NumberToBoolConverterOpposite x:Key="numberToBoolConverterOpposite" />
+            <local:SunToStringConverter          x:Key="sunToStringConverter"/>
 
             <!--
             <tools:PlantTypeToStringConverter    x:Key="plantTypeToStringConverter" />
@@ -103,7 +104,8 @@
                            FontAttributes="Italic"/>
                     <Label Text="{Binding PlantTypeString, StringFormat='Type of plant: {0}'}"/>
                     <Label Text="{Binding FloweringMonths, StringFormat='Flowering months: {0}'}"/>
-                    <Label Text="{Binding SunString, StringFormat='Sun requirements: {0}'}"/>
+                    <Label Text="{Binding Sun, Converter={StaticResource sunToStringConverter}, 
+                                 StringFormat='Sun requirements: {0}'}"/>
 
                     <Label Text="How many do you want?"/>
                     <StackLayout Orientation="Horizontal" 
