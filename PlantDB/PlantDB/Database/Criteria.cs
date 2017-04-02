@@ -11,6 +11,7 @@ namespace PlantDB.Data
     {
         //Fields
         FloweringMonths floweringMonths;
+        PlantTypes plantTypes;
 
         //Constructor -- set all the defaults to whatever we want the starting state to be, as the criteria gets
         //applied every time the list is drawn
@@ -22,6 +23,7 @@ namespace PlantDB.Data
         public void ResetCriteria()
         {
             FloweringMonths = FloweringMonths.AllMonths;
+            PlantTypes = PlantTypes.AllPlantTypes;
         }
 
 
@@ -36,6 +38,20 @@ namespace PlantDB.Data
                 }
             }
             get { return floweringMonths; }
+        }
+
+
+        public PlantTypes PlantTypes
+        {
+            set
+            {
+                if (plantTypes != value)
+                {
+                    plantTypes = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return plantTypes; }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

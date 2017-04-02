@@ -30,18 +30,7 @@ namespace PlantDB.Data
                 return database.Table<Plant>().ToList();
             }
         }
-/* TODO DEAD CODE?
-        public List<Plant> GetMonthPlants(string month)
-        {
-            lock(collisionLock)
-            {
 
-                return database.Table<Plant>()
-                    .Where(p => p.FloweringMonths.Contains(month))
-                    .ToList();
-            }
-        }
-*/
         public List<Plant> GetPlantsInCart()
         {
             lock(collisionLock)
@@ -125,7 +114,7 @@ namespace PlantDB.Data
 
                 if (p.InCart < 0)
                 {
-                    //!!TODO need to generate an exception, as this should never happen
+                    //TODO need to generate an exception, as this should never happen
                 }
                 return SavePlant(p) > 0 ? true : false;
             }

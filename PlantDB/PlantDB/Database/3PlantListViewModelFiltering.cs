@@ -17,6 +17,7 @@ namespace PlantDB.Data
     public partial class PlantListViewModel : INotifyPropertyChanged
     {
         //Refreshes the plant list and all other data associated with it
+        //TODO This requeries the plant list every time, even if nothing has changed since last time. Need some kind of optimization to save cycles.
         private void SetPlantList()
         {
             List<Plant> newList;
@@ -29,12 +30,13 @@ namespace PlantDB.Data
                 newList = PlantData.GetAllPlants();
                 newList = newList
                             .Where(p => IncludesMonths(TargetPlant.FloweringMonths, p.FloweringMonths))
+                            .Where(p => IncludesTypes(TargetPlant.PlantTypes, p.PlantType))
                             .ToList();
             }
 
             var sorted = from p in newList
                          orderby p.ScientificName
-                         group p by p.Type into plantGroups
+                         group p by p.PlantTypeString into plantGroups
                          select new Grouping<string, Plant>(plantGroups.Key, plantGroups);
 
             PlantList = new ObservableCollection<Grouping<string, Plant>>(sorted);
@@ -56,13 +58,32 @@ namespace PlantDB.Data
 
             bool result = false;
 
-            foreach (FloweringMonths f in target)
+            foreach (FloweringMonths i in target)
             {
-                result = result || (candidate.HasFlag(f) && wanted.HasFlag(f));
+                result = result || (candidate.HasFlag(i) && wanted.HasFlag(i));
             }
 
             return result || wanted.HasFlag(FloweringMonths.AllMonths);
         }
+
+        // Returns true if the any of the flowering months contained in Wanted matches any of the flowering months in Test
+        // e.g. if Wanted = "Jan or Feb" and Test = "Feb or Mar" then true
+        //      if Wanted = "Jan or Feb" and Test = "Mar or Apr" then false
+        //      if Wanted = "Jan or Feb" and Test = "AllMonths" then true 
+        private bool IncludesTypes(PlantTypes wanted, PlantTypes candidate)
+        {
+            PlantTypes[] target = {PlantTypes.Annual_herb, PlantTypes.Bush, PlantTypes.Fern, PlantTypes.Grass,
+                                   PlantTypes.Perennial_herb, PlantTypes.Tree, PlantTypes.Vine};
+            bool result = false;
+
+            foreach (PlantTypes i in target)
+            {
+                result = result || (candidate.HasFlag(i) && wanted.HasFlag(i));
+            }
+
+            return result || wanted.HasFlag(PlantTypes.AllPlantTypes);
+        }
+
         #endregion Includes operations
 
 

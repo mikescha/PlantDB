@@ -59,18 +59,33 @@ namespace PlantDB.Data
             }
         }
 
-        private string type;
-        [Column("Type")]
-        public string Type
+        private PlantTypes plantType;
+        [Column("PlantTypes")]
+        public PlantTypes PlantType
         {
             get
             {
-                return type;
+                return plantType;
             }
 
             set
             {
-                this.type = value;
+                this.plantType = value;
+                string s;
+                switch (value)
+                {
+                    case PlantTypes.Annual_herb:
+                        s = "Annual Herb";
+                        break;
+                    case PlantTypes.Perennial_herb:
+                        s = "Perennial Herb";
+                        break;
+                    default:
+                        s = value.ToString();
+                        break;
+                }
+                PlantTypeString = s;
+
                 OnPropertyChanged();
             }
         }
@@ -161,9 +176,33 @@ namespace PlantDB.Data
             }
         }
 
-        //This is only set when the FloweringMonth is set. That code is responsible for converting the string from
-        //the database into a typed value
-       // public FloweringMonths FloweringMonths { get; private set; }
+        //This is only set when the Plant Type is set. That code is responsible for converting the typed value from
+        //the database into a string. This is used for grouping in the UI; since some of the enum values aren't pretty, 
+        //we have to convert them to a string somewhere...
+        private string plantTypeString;
+        public string PlantTypeString
+        {
+            get
+            {
+                return plantTypeString;
+            }
+
+            private set
+            {
+                if (value != null)
+                {
+                    plantTypeString = value;
+                }
+                else
+                {
+                    //why
+                    ;
+                }
+
+            }
+        }
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged([CallerMemberName] string propertyName = "")

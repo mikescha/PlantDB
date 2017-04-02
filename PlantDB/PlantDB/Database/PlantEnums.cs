@@ -17,7 +17,7 @@ namespace PlantDB.Data
 
     public enum PlantTypes
     {
-        Unassigned = 1, Unknown = 2, NotApplicable = 4,
+        Unassigned = 1, Unknown = 2, NA = 4,
         Annual_herb = 8, Bush = 16, Fern = 32, Grass = 64, Perennial_herb = 128, Tree = 256, Vine = 512,
         AllPlantTypes = (Annual_herb | Bush | Fern | Grass | Perennial_herb | Tree | Vine)
     }

@@ -37,9 +37,9 @@ namespace PlantDB.Data
             NameInCart = p.PlantName + (p.InCart > 0 ? (" (" + p.InCart.ToString() + ")") : "");
         }
         
-        #region Type conversions
         //Used to convert the string representing a month into a typed value. 
-        //TODO: Need to think through the right layer for the conversion from string to type to be at. 
+        //DEAD CODE, no longer needed but keeping around as it's a good example of how to use dictionary keys
+        /*
         public FloweringMonths GetMonthFromString(string month)
         {
             FloweringMonths floweringMonth = FloweringMonths.NA; //Default to NA because that's what we're using for ferns
@@ -56,8 +56,7 @@ namespace PlantDB.Data
             }
             
             return floweringMonth;
-        }
-        #endregion Type conversions
+        }*/
 
 
         #region Dictionaries

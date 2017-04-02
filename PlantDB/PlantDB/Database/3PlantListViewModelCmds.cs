@@ -61,26 +61,6 @@ namespace PlantDB.Data
             PlantData.SavePlant(p);
         }
 
-        public void GetPlantsByMonth(FloweringMonths month)
-        {
-            viewShowing = ViewShowing.List;
-
-            if (month == FloweringMonths.AllMonths)
-            {
-                TargetPlant.ResetCriteria();
-            }
-            else if (FloweringMonths.AllMonths.HasFlag(month))
-            {
-                FloweringMonths f = month;
-                TargetPlant.FloweringMonths = f;
-            }
-            else
-            {
-                //error, bad month passed in...somehow. What to do?
-            }
-
-            SetPlantList();
-        }
  
         private Command showAllPlantsCmd;
         public ICommand ShowAllPlantsCmd
@@ -106,7 +86,12 @@ namespace PlantDB.Data
             {
                 if (showSomePlantsCmd == null)
                 {
-                    showSomePlantsCmd = new Command(() => { GetPlantsByMonth(FloweringMonths.Dec); });
+                    showSomePlantsCmd = new Command(() => 
+                    {
+                        TargetPlant.FloweringMonths = FloweringMonths.Apr;
+                        TargetPlant.PlantTypes = PlantTypes.Bush;
+                        SetPlantList();
+                    });
                 }
                 return showSomePlantsCmd;
             }

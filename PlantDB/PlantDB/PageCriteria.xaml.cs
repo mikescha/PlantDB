@@ -20,7 +20,10 @@ namespace PlantDB
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            //todo: change to just show plants that match the current criteria
+
+            //Even though this tab doesn't have a plant list, the count is supposed to represent the count of the 
+            //current criteria. Calling show plant list will ensure that this happens, in case we came from the 
+            //shopping list tab.
             App.PlantData.ShowPlantList();
         }
 

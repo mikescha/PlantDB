@@ -22,7 +22,6 @@ namespace PlantDB
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            //todo: change to just show plants that match the current criteria
             PlantsListView.SelectedItem = null;
             App.PlantData.ShowPlantList();
         }
