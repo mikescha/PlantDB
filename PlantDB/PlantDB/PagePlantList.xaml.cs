@@ -26,5 +26,13 @@ namespace PlantDB
             PlantsListView.SelectedItem = null;
             App.PlantData.ShowPlantList();
         }
+
+        //Occurs when the user changes the plant count by typing in a new value
+        //This gets changed in the data structure, but needs to be written to the database to be persisted
+        private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Plant p = (Plant) PlantsListView.SelectedItem;
+            App.PlantData.SavePlant(p);
+        }
     }
 }

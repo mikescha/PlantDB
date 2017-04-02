@@ -115,7 +115,8 @@
                         </Button>
 
                         <Entry Text="{Binding InCart, Mode=TwoWay}"  
-                               Keyboard="Numeric"/>
+                               Keyboard="Numeric"
+                               TextChanged="Entry_TextChanged"/>
 
                         <Button Text="-"
                                 Command="{Binding Source={x:Static local:App.PlantData}, Path=DecrementPlantCountCmd}"
