@@ -92,24 +92,6 @@ namespace PlantDB.Data
             }
         }
 
-        //Convert an ID to a Plant object
-        public Plant GetPlantFromID(int id)
-        {
-            return database.Table<Plant>().FirstOrDefault(plant => plant.ID == id); 
-        }
-
-        //If plant count was zero, then makes it one, and vice versa, then saves changes to DB. Same as above but it takes the 
-        //plant's ID number instead of the plant object. 
-        //Returns true if it succeeded.
-        public bool ToggleCartStatus(int id)
-        {
-            lock(collisionLock)
-            {
-                Plant p = GetPlantFromID(id);
-                return ToggleCartStatus(p);
-            }
-        }
-
         //If plant count was zero, then makes it one, and vice versa, then saves changes to DB
         //Returns true if it succeeded.
         public bool ZeroPlantCount(Plant p)

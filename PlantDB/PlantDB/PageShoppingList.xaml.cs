@@ -21,8 +21,8 @@ namespace PlantDB
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            App.PlantData.GetCartPlants();
             PlantsListView.SelectedItem = null;
+            App.PlantData.ShowCartPlants();
         }
     }
 }

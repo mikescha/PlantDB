@@ -22,8 +22,9 @@ namespace PlantDB
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            App.PlantData.GetPlantsByMonth(FloweringMonths.AllMonths);
+            //todo: change to just show plants that match the current criteria
             PlantsListView.SelectedItem = null;
+            App.PlantData.ShowPlantList();
         }
     }
 }

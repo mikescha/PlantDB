@@ -43,6 +43,39 @@ namespace PlantDB.Data
             //GetPlantsByMonth(FloweringMonths.AllMonths);
         }
 
+        public void ShowPlantList()
+        {
+            viewShowing = ViewShowing.List ;
+            SetPlantList();
+        }
+
+        public void ShowCartPlants()
+        {
+            viewShowing = ViewShowing.Cart;
+            SetPlantList();
+        }
+
+        public void GetPlantsByMonth(FloweringMonths month)
+        {
+            viewShowing = ViewShowing.List;
+
+            if (month == FloweringMonths.AllMonths)
+            {
+                TargetPlant.ResetCriteria();
+            }
+            else if (FloweringMonths.AllMonths.HasFlag(month))
+            {
+                FloweringMonths f = GetMonthFromString(floweringMonthDict[month]);
+                TargetPlant.FloweringMonths = f;
+            }
+            else
+            {
+                //error, bad month passed in...somehow. What to do?
+            }
+
+            SetPlantList();
+        }
+
         //Refreshes the plant list and all other data associated with it
         private void SetPlantList()
         {
@@ -58,9 +91,7 @@ namespace PlantDB.Data
                             .Where(p => IncludesMonths(TargetPlant.FloweringMonths, p.FloweringMonths))
                             .ToList();
             }
-
-
-
+            
             var sorted = from p in newList
                          orderby p.ScientificName
                          group p by p.Type into plantGroups
@@ -91,59 +122,31 @@ namespace PlantDB.Data
             return result || wanted.HasFlag(FloweringMonths.AllMonths);
         }
 
-        public Plant GetPlantFromID(int ID)
-        {
-            return PlantData.GetPlantFromID(ID);
-        }
 
-        public void GetPlantsByMonth(FloweringMonths month)
+        //Used to convert the string representing a month into a typed value. 
+        //TODO: Need to think through the right layer for the conversion from string to type to be at. 
+        private FloweringMonths GetMonthFromString(string month)
         {
-            List<Plant> p;
-            if (month == FloweringMonths.AllMonths)
-            {
-                viewShowing = ViewShowing.AllPlants;
-            }
-            else if (FloweringMonths.AllMonths.HasFlag(month))
-            {
-                p = PlantData.GetMonthPlants(floweringMonthDict[month]);
-                viewShowing = ViewShowing.SomePlants;
-            }
-            else
-            {
-                //error, bad month passed in
-                p = null;
-            }
-
-            SetPlantList();
-        }
-
-        private void GetPlantsByMonth(string month)
-        {
+            FloweringMonths floweringMonth=FloweringMonths.NotApplicable; 
             foreach (FloweringMonths f in floweringMonthDict.Keys)
             {
                 if (month == floweringMonthDict[f])
                 {
-                    TargetPlant.FloweringMonths = f;
+                    floweringMonth = f;
                     break;
                 }
             }
-            
-            viewShowing = ViewShowing.SomePlants;
-            SetPlantList();
+            return floweringMonth;
+                    
         }
 
-        public void GetCartPlants()
-        {
-            viewShowing = ViewShowing.Cart;
-            SetPlantList();
-        }
 
         private void UpdateList()
         {
             OnPropertyChanged("PlantList");
             if (viewShowing.HasFlag(ViewShowing.Cart))
             {
-                GetCartPlants();
+                ShowCartPlants();
             }
         }
  
@@ -158,7 +161,6 @@ namespace PlantDB.Data
                     {
                         TargetPlant.ResetCriteria();
                         SetPlantList();
-                        //GetPlantsByMonth(FloweringMonths.AllMonths);
                     });
                 }
                 return showAllPlantsCmd;
@@ -172,26 +174,12 @@ namespace PlantDB.Data
             {
                 if (showSomePlantsCmd == null)
                 {
-                    showSomePlantsCmd = new Command<string>((month) => { GetPlantsByMonth(month); });
+                    showSomePlantsCmd = new Command<string>((month) => { GetPlantsByMonth(GetMonthFromString(month)); });
                 }
                 return showSomePlantsCmd;
             }
         }
 
-/* Needed any more?
-        private Command showCartPlantsCmd;
-        public ICommand ShowCartPlantsCmd
-        {
-            get
-            {
-                if (showCartPlantsCmd == null)
-                {
-                    showCartPlantsCmd = new Command(() => { GetCartPlants(); });
-                }
-                return showCartPlantsCmd;
-            }
-        }
-*/
         private Command emptyCart;
         public ICommand EmptyCartCmd
         {
@@ -295,7 +283,7 @@ namespace PlantDB.Data
         [Flags]
         private enum ViewShowing
         {
-            AllPlants = 1, SomePlants = 2, Cart = 4
+            List = 1, Cart = 2
         }
         #endregion Flags
 
