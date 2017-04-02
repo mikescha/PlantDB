@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-
 /*
  * Basic stuff we'll need to work with the plants. This will have enums and other fundamental building blocks
  * that describe plants.
@@ -37,27 +36,42 @@ namespace PlantDB.Data
         {
             NameInCart = p.PlantName + (p.InCart > 0 ? (" (" + p.InCart.ToString() + ")") : "");
         }
+        
+        #region Type conversions
+        //Used to convert the string representing a month into a typed value. 
+        //TODO: Need to think through the right layer for the conversion from string to type to be at. 
+        public FloweringMonths GetMonthFromString(string month)
+        {
+            FloweringMonths floweringMonth = FloweringMonths.NA; //Default to NA because that's what we're using for ferns
+
+            if (month != null)
+            {
+                foreach (FloweringMonths f in floweringMonthDict.Keys)
+                {
+                    if (month.Contains(floweringMonthDict[f]))
+                    {
+                        floweringMonth |= f; //These are flags, so if we find a match then use "or" to turn on that flag
+                    }
+                }
+            }
+            
+            return floweringMonth;
+        }
+        #endregion Type conversions
+
+
+        #region Dictionaries
+        Dictionary<FloweringMonths, string> floweringMonthDict = new Dictionary<FloweringMonths, string>
+        {
+            {FloweringMonths.Jan, "Jan" }, {FloweringMonths.Feb, "Feb" }, {FloweringMonths.Mar, "Mar" },
+            {FloweringMonths.Apr, "Apr" }, {FloweringMonths.May, "May" }, {FloweringMonths.Jun, "Jun" },
+            {FloweringMonths.Jul, "Jul" }, {FloweringMonths.Aug, "Aug" }, {FloweringMonths.Sep, "Sep" },
+            {FloweringMonths.Oct, "Oct" }, {FloweringMonths.Nov, "Nov" }, {FloweringMonths.Dec, "Dec" }
+           // , {"All", FloweringMonths.AllMonths}
+        };
+        #endregion Dictionaries
+
 
     }
-
-
-
-
-    #region Flags
-    [Flags]
-    public enum FloweringMonths
-    {
-        Unassigned = 1, Unknown = 2, NotApplicable = 4,
-        Jan = 8, Feb = 16, Mar = 32, Apr = 64, May = 128, Jun = 256,
-        Jul = 512, Aug = 1024, Sep = 2048, Oct = 4096, Nov = 8192, Dec = 16384,
-        AllMonths = (Jan | Feb | Mar | Apr | May | Jun | Jul | Aug | Sep | Oct | Nov | Dec)
-    }
-
-    public enum PlantTypes
-    {
-        Unassigned = 1, Unknown = 2, NotApplicable = 4,
-        Annual_herb = 8, Bush = 16, Fern = 32, Grass = 64, Perennial_herb = 128, Tree = 256, Vine = 512,
-        AllPlantTypes = (Annual_herb | Bush | Fern | Grass | Perennial_herb | Tree | Vine)
-    }
-    #endregion Flags
+    
 }

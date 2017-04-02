@@ -31,8 +31,7 @@
                         Command="{Binding ShowAllPlantsCmd}"/>
                 <Button x:Name="SomePlants"
                         Text="Some Plants"
-                        Command="{Binding ShowSomePlantsCmd}"
-                        CommandParameter="Dec"/>
+                        Command="{Binding ShowSomePlantsCmd}"/>
             </StackLayout>
         </StackLayout>
     </Grid>

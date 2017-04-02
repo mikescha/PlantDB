@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-/* View Model commands and definitions
+/* View Model commands
  * 
  * Contains all the basic commands for showing things in the UX
  * 
@@ -71,7 +71,7 @@ namespace PlantDB.Data
             }
             else if (FloweringMonths.AllMonths.HasFlag(month))
             {
-                FloweringMonths f = GetMonthFromString(floweringMonthDict[month]);
+                FloweringMonths f = month;
                 TargetPlant.FloweringMonths = f;
             }
             else
@@ -106,7 +106,7 @@ namespace PlantDB.Data
             {
                 if (showSomePlantsCmd == null)
                 {
-                    showSomePlantsCmd = new Command<string>((month) => { GetPlantsByMonth(GetMonthFromString(month)); });
+                    showSomePlantsCmd = new Command(() => { GetPlantsByMonth(FloweringMonths.Dec); });
                 }
                 return showSomePlantsCmd;
             }

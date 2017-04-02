@@ -90,7 +90,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Content Include="..\miniplant.db3">
+    <Content Include="..\PlantDB\miniplant.db3">
       <Link>miniplant.db3</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

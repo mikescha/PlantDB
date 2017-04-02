@@ -122,8 +122,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\miniplant.db3">
+    <AndroidAsset Include="..\PlantDB\miniplant.db3">
       <Link>Assets\miniplant.db3</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AndroidAsset>
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />

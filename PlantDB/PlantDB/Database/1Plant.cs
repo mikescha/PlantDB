@@ -107,9 +107,9 @@ namespace PlantDB.Data
             }
         }
 
-        private string floweringMonths;
+        private FloweringMonths floweringMonths;
         [Column("FloweringMonths")]
-        public string FloweringMonths
+        public FloweringMonths FloweringMonths
         {
             get
             {
@@ -119,6 +119,7 @@ namespace PlantDB.Data
             set
             {
                 this.floweringMonths = value;
+                //FloweringMonths = GetMonthFromString(value);
                 OnPropertyChanged();
             }
         }
@@ -159,6 +160,10 @@ namespace PlantDB.Data
                 SetNameInCart(this);
             }
         }
+
+        //This is only set when the FloweringMonth is set. That code is responsible for converting the string from
+        //the database into a typed value
+       // public FloweringMonths FloweringMonths { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged([CallerMemberName] string propertyName = "")

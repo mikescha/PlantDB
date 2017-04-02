@@ -52,16 +52,6 @@ namespace PlantDB.Data
             }
         }
 
-        #region Dictionaries
-        Dictionary<FloweringMonths, string> floweringMonthDict = new Dictionary<FloweringMonths, string>
-        {
-            {FloweringMonths.Jan, "Jan" }, {FloweringMonths.Feb, "Feb" }, {FloweringMonths.Mar, "Mar" },
-            {FloweringMonths.Apr, "Apr" }, {FloweringMonths.May, "May" }, {FloweringMonths.Jun, "Jun" },
-            {FloweringMonths.Jul, "Jul" }, {FloweringMonths.Aug, "Aug" }, {FloweringMonths.Sep, "Sep" },
-            {FloweringMonths.Oct, "Oct" }, {FloweringMonths.Nov, "Nov" }, {FloweringMonths.Dec, "Dec" }
-           // , {"All", FloweringMonths.AllMonths}
-        };
-        #endregion Dictionaries
 
         #region Flags
         [Flags]

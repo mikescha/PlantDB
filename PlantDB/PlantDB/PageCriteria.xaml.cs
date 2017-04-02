@@ -16,5 +16,13 @@ namespace PlantDB
         {
             InitializeComponent();
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            //todo: change to just show plants that match the current criteria
+            App.PlantData.ShowPlantList();
+        }
+
     }
 }

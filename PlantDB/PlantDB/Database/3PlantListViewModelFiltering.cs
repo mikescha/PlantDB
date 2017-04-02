@@ -48,7 +48,7 @@ namespace PlantDB.Data
         // e.g. if Wanted = "Jan or Feb" and Test = "Feb or Mar" then true
         //      if Wanted = "Jan or Feb" and Test = "Mar or Apr" then false
         //      if Wanted = "Jan or Feb" and Test = "AllMonths" then true 
-        private bool IncludesMonths(FloweringMonths wanted, string candidate)
+        private bool IncludesMonths(FloweringMonths wanted, FloweringMonths candidate)
         {
             FloweringMonths[] target = {FloweringMonths.Jan, FloweringMonths.Feb, FloweringMonths.Mar, FloweringMonths.Apr,
                                         FloweringMonths.May, FloweringMonths.Jun, FloweringMonths.Jul, FloweringMonths.Aug,
@@ -58,29 +58,14 @@ namespace PlantDB.Data
 
             foreach (FloweringMonths f in target)
             {
-                result = result || (candidate.Contains(floweringMonthDict[f]) && wanted.HasFlag(f));
+                result = result || (candidate.HasFlag(f) && wanted.HasFlag(f));
             }
 
             return result || wanted.HasFlag(FloweringMonths.AllMonths);
         }
         #endregion Includes operations
 
-        //Used to convert the string representing a month into a typed value. 
-        //TODO: Need to think through the right layer for the conversion from string to type to be at. 
-        private FloweringMonths GetMonthFromString(string month)
-        {
-            FloweringMonths floweringMonth = FloweringMonths.NotApplicable;
-            foreach (FloweringMonths f in floweringMonthDict.Keys)
-            {
-                if (month == floweringMonthDict[f])
-                {
-                    floweringMonth = f;
-                    break;
-                }
-            }
-            return floweringMonth;
 
-        }
 
     }
 }
