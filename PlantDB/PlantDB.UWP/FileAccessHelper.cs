@@ -30,6 +30,10 @@ namespace PlantDB.UWP
             //We have a couple checks to make to ensure that the file needs to be copied, so track that state in a bool
             bool needToCopy = false;
 
+            //NOTE: TEMPORARY DEBUG CODE ONLY -- THIS ENSURES THAT THE DATABASE ALWAYS STARTS FROM SCRATCH SO THAT 
+            //I DON'T HAVE TO KEEP MANUALLY DELETING IT WHILE THE STRUCTURE IS CHANGING. THIS WILL GET TURNED OFF LATER SO DATA PERSISTS!
+            needToCopy = true;
+
             //check if the file exists at all, or it exists and is zero bytes/the wrong size
             if (await targetFolder.TryGetItemAsync(fileName) != null)
             {

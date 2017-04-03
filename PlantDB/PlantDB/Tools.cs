@@ -301,6 +301,62 @@ namespace PlantDB
         }
     }
 
+    // Takes a plant and returns an aggregation of all the animals that use it
+    public class PlantToAttractsConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string fullMessage = "";
+
+            if (value != null)
+            {
+                Plant p = (Plant)value;
+
+                List<string> result = new List<string>();
+
+                if (p.AttractsButterflies.HasFlag(YesNoMaybe.Yes))
+                    result.Add("Butterflies");
+
+                if (p.AttractsBees.HasFlag(YesNoMaybe.Yes))
+                    result.Add("Bees");
+
+                if (p.AttractsSongbirds.HasFlag(YesNoMaybe.Yes))
+                    result.Add("Songbirds");
+
+                if (p.AttractsHummingbirds.HasFlag(YesNoMaybe.Yes))
+                    result.Add("Hummingbirds");
+
+                switch (result.Count)
+                {
+                    case 0:
+                        fullMessage = "None";
+                        break;
+                    case 1:
+                        fullMessage = result[0];
+                        break;
+                    case 2:
+                        fullMessage = result[0] + " and " + result[1];
+                        break;
+                    default:
+                        int i;
+                        for (i = 0; i < result.Count - 1; i++)
+                        {
+                            fullMessage += result[i] + ", ";
+                        }
+                        fullMessage += "and " + result[i];
+                        break;
+                }
+            }
+            
+            return fullMessage;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return false;
+        }
+    }
+    
 
     // Takes a boolean, and returns back the opposite. 
     // One use: If the error message is visible then stop the spinner.

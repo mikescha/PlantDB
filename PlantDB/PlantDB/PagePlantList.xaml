@@ -28,6 +28,7 @@
             <local:NumberToBoolConverter         x:Key="numberToBoolConverter" />
             <local:NumberToBoolConverterOpposite x:Key="numberToBoolConverterOpposite" />
             <local:SunToStringConverter          x:Key="sunToStringConverter"/>
+            <local:PlantToAttractsConverter      x:Key="plantToAttractsConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -97,6 +98,10 @@
                     <Label Text="{Binding FloweringMonths, StringFormat='Flowering months: {0}'}"/>
                     <Label Text="{Binding Sun, Converter={StaticResource sunToStringConverter}, 
                                  StringFormat='Sun requirements: {0}'}"/>
+                    <Label Text="{Binding Source={x:Reference PlantsListView}, Path=SelectedItem, 
+                                 Converter={StaticResource plantToAttractsConverter}, StringFormat='Critters attracted: {0}'}"/>
+                    <Label Text="{Binding Visuals, StringFormat='Visuals: {0}'}"/>
+                    <Label Text="{Binding Notes}"/>
 
                     <Label Text="How many do you want?"/>
                     <StackLayout Orientation="Horizontal" 
