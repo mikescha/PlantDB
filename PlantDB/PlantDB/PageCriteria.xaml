@@ -197,16 +197,18 @@
 
                 <!--***** Reset *****-->
 
-                <StackLayout Orientation="Vertical"
-                             HorizontalOptions="StartAndExpand">
+                <StackLayout>
                     <Label Text="Reset"
                            Style="{StaticResource H2Style}"
                            HeightRequest="50"
                            VerticalTextAlignment="Center"
                            BackgroundColor="{DynamicResource lightPrimaryColor}"/>
                     <Button x:Name="AllPlants"
-                        Text="Show all plants"
-                        Command="{Binding ShowAllPlantsCmd}"/>
+                            Text="Show all plants"
+                            WidthRequest="200"
+                            Command="{Binding ShowAllPlantsCmd}"
+                            TextColor="Black"
+                            BackgroundColor="White"/>
                 </StackLayout>
             </StackLayout>
         </Grid>
