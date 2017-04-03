@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace PlantDB.Data
 {
+    /// Values which indicate a boolean yes or no, or a special state.
+    [Flags]
+    public enum YesNoMaybe
+    {
+        Unassigned = 1, Unknown = 2, NA = 4,
+        Yes = 8, No = 16, Maybe = 32
+    };
+
     [Flags]
     public enum FloweringMonths
     {
@@ -26,24 +34,33 @@ namespace PlantDB.Data
     [Flags]
     public enum FlowerColor
     {
-        Unassigned = 1, Unknown = 2, NotApplicable = 4,
-        Red = 8, Orange = 16, Yellow = 32, Green = 64, Blue = 128, Purple = 256, White = 512, Brown = 1024,
-        AnyColor = (Red | Orange | Yellow | Green | Blue | Purple | White | Brown)
+        Unassigned = 1, Unknown = 2, NA = 4,
+        Red = 8, Orange = 16, Yellow = 32, Green = 64, Blue = 128, Purple = 256, Violet = 512, Lavender = 1024,
+        White = 2048, Pink = 4096, Brown = 8192, Textural = 16384,
+        AnyColor = (Red | Orange | Yellow | Green | Blue | Purple | Violet | White | Brown) //Intentionally excluing Textural 
     };
 
     [Flags]
     public enum WateringRequirements
     {
-        Unassigned = 1, Unknown = 2, NotApplicable = 4,
-        Regular = 8, Moderate = 16, Occasional = 32, Infrequent = 64, Drought_tolerant = 128,
-        AllWateringTypes = (Regular | Moderate | Occasional | Infrequent | Drought_tolerant)
+        Unassigned = 1, Unknown = 2, NA = 4,
+        Regular = 8, Moderate = 16, Occasional = 32, Infrequent = 64, DroughtTolerant = 128,
+        AllWateringTypes = (Regular | Moderate | Occasional | Infrequent | DroughtTolerant)
     }
 
     [Flags]
     public enum SunRequirements
     {
-        Unassigned = 1, Unknown = 2, NotApplicable = 4,
+        Unassigned = 1, Unknown = 2, NA = 4,
         Full = 8, Partial = 16, Shade = 32,
         AllSunTypes = (Full | Partial | Shade)
+    }
+
+    [Flags]
+    public enum Drainages
+    {
+        Unassigned = 1, Unknown = 2, NA = 4,
+        Fast = 8, Medium = 16, Slow = 32, Standing = 64, WellDraining = 128,
+        AllDrainageType = (Fast | Medium | Slow | Standing)
     }
 }

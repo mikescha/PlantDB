@@ -203,9 +203,9 @@ namespace PlantDB.Data
             }
         }
 
-        private string waterReqs;
+        private WateringRequirements waterReqs;
         [Column("Watering")]
-        public string WaterReqs
+        public WateringRequirements WaterReqs
         {
             get
             {
@@ -247,6 +247,22 @@ namespace PlantDB.Data
             set
             {
                 this.maxRain = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        private FlowerColor flowerColor;
+        [Column("FlowerColor")]
+        public FlowerColor FlowerColor
+        {
+            get
+            {
+                return flowerColor;
+            }
+
+            set
+            {
+                this.flowerColor = value;
                 OnPropertyChanged();
             }
         }
@@ -330,10 +346,10 @@ namespace PlantDB.Data
                 OnPropertyChanged();
             }
         }
-
-        private string drainage;
+        
+        private Drainages drainage;
         [Column("CNPSDrainage")]
-        public string Drainage
+        public Drainages Drainage
         {
             get
             {
@@ -346,10 +362,10 @@ namespace PlantDB.Data
                 OnPropertyChanged();
             }
         }
-
-        private string attractsBees;
+        
+        private YesNoMaybe attractsBees;
         [Column("AttractsBees")]
-        public string AttractsBees
+        public YesNoMaybe AttractsBees
         {
             get
             {
@@ -362,10 +378,10 @@ namespace PlantDB.Data
                 OnPropertyChanged();
             }
         }
-
-        private string attractsButterflies;
+       
+        private YesNoMaybe attractsButterflies;
         [Column("AttractsButterflies")]
-        public string AttractsButterflies
+        public YesNoMaybe AttractsButterflies
         {
             get
             {
@@ -379,9 +395,9 @@ namespace PlantDB.Data
             }
         }
 
-        private string attractsHummingbirds;
+        private YesNoMaybe attractsHummingbirds;
         [Column("AttractsHummingbirds")]
-        public string AttractsHummingbirds
+        public YesNoMaybe AttractsHummingbirds
         {
             get
             {
@@ -395,9 +411,9 @@ namespace PlantDB.Data
             }
         }
 
-        private string attractsSongbirds;
+        private YesNoMaybe attractsSongbirds;
         [Column("AttractsSongbirds")]
-        public string AttractsSongbirds
+        public YesNoMaybe AttractsSongbirds
         {
             get
             {
@@ -410,7 +426,7 @@ namespace PlantDB.Data
                 OnPropertyChanged();
             }
         }
-
+        
         private string notes;
         [Column("Notes")]
         public string Notes
@@ -427,9 +443,9 @@ namespace PlantDB.Data
             }
         }
 
-        private string containers;
+        private YesNoMaybe containers;
         [Column("Containers")]
-        public string Containers
+        public YesNoMaybe Containers
         {
             get
             {
@@ -442,7 +458,6 @@ namespace PlantDB.Data
                 OnPropertyChanged();
             }
         }
-
 
         private int minElevation;
         [Column("MinElevation")]
@@ -476,9 +491,9 @@ namespace PlantDB.Data
             }
         }
 
-        private long counties;
+        private string counties;
         [Column("Counties")]
-        public long Counties
+        public string Counties
         {
             get
             {
@@ -491,7 +506,7 @@ namespace PlantDB.Data
                 OnPropertyChanged();
             }
         }
-
+       
 
         //Note that the only time we set the name in the cart is when the value changes. This works for the intial run because
         //the InCart value is set after the Name is set because of the column order. If this ever got re-ordered so that InCart

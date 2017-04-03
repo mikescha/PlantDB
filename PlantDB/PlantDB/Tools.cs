@@ -278,7 +278,7 @@ namespace PlantDB
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             SunRequirements target = (SunRequirements)value;
-            SunRequirements button = SunRequirements.NotApplicable;
+            SunRequirements button = SunRequirements.NA;
 
             switch (parameter)
             {
