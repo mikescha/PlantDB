@@ -32,6 +32,7 @@ namespace PlantDB.Data
                             .Where(p => IncludesMonths(TargetPlant.FloweringMonths, p.FloweringMonths))
                             .Where(p => IncludesTypes(TargetPlant.PlantTypes, p.PlantType))
                             .Where(p => IncludesSun(TargetPlant.Sun, p.Sun))
+                            .Where(p => p.MaxHeight <= TargetPlant.MaxHeight )
                             .ToList();
             }
 

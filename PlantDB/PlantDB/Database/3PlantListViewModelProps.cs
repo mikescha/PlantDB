@@ -16,7 +16,7 @@ namespace PlantDB.Data
 {
     public partial class PlantListViewModel : INotifyPropertyChanged
     {
-        private ViewShowing viewShowing;
+        public ViewShowing viewShowing;
 
         private int plantCount;
         public int PlantCount
@@ -52,13 +52,54 @@ namespace PlantDB.Data
             }
         }
 
-
-        #region Flags
-        [Flags]
-        private enum ViewShowing
+        private YardSizeTypes yardSize;
+        public YardSizeTypes YardSize
         {
-            List = 1, Cart = 2
+            get
+            {
+                return yardSize;
+            }
+            private set
+            {
+                if (yardSize != value)
+                {
+                    yardSize = value;
+                    OnPropertyChanged();
+                }
+            }
         }
-        #endregion Flags
+
+        private SunRequirements yardSun;
+        public SunRequirements YardSun
+        {
+            get
+            {
+                return yardSun;
+            }
+            private set
+            {
+                if (yardSun != value)
+                {
+                    yardSun = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
     }
+
+    #region Flags
+    [Flags]
+    //Note that these are used in the UI, so don't change the numbers or order without doublechecking all the places they're used!
+    public enum YardSizeTypes
+    {
+        NA = 0, Tiny = 1, Small = 2, Big = 4
+    }
+
+    public enum ViewShowing
+    {
+        List = 1, Cart = 2
+    }
+    #endregion Flags
+
 }
+

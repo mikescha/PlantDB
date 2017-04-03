@@ -37,8 +37,17 @@ namespace PlantDB.Data
         //Constructor. I initialize the list to all months by default
         public PlantListViewModel(string dbPath)
         {
+            //Load the database
             PlantData = new PlantDatabase(dbPath);
+
+            //Create the default criteria
             TargetPlant = new Criteria();
+
+            //Set defaults for UX
+            YardSize = YardSizeTypes.Big;
+            YardSun = TargetPlant.Sun;
+            
+            //Get all the data and init
             SetPlantList();
         }
 
@@ -61,7 +70,9 @@ namespace PlantDB.Data
             PlantData.SavePlant(p);
         }
 
- 
+        /*
+         * UI Commands
+         */
         private Command showAllPlantsCmd;
         public ICommand ShowAllPlantsCmd
         {
@@ -76,25 +87,6 @@ namespace PlantDB.Data
                     });
                 }
                 return showAllPlantsCmd;
-            }
-        }
-
-        private Command showSomePlantsCmd;
-        public ICommand ShowSomePlantsCmd
-        {
-            get
-            {
-                if (showSomePlantsCmd == null)
-                {
-                    showSomePlantsCmd = new Command(() => 
-                    {
-                        TargetPlant.FloweringMonths = FloweringMonths.Apr;
-                        TargetPlant.PlantTypes = PlantTypes.Bush;
-                        TargetPlant.Sun = SunRequirements.Partial;
-                        SetPlantList();
-                    });
-                }
-                return showSomePlantsCmd;
             }
         }
 
@@ -167,6 +159,70 @@ namespace PlantDB.Data
                     decrementPlantCountCmd = new Command<Plant>((p) => { PlantData.DecrementPlantCount(p); });
                 }
                 return decrementPlantCountCmd;
+            }
+        }
+
+        //Command for setting plant size based on how large the person's yard is
+        private Command setYardSizeCmd;
+        public ICommand SetYardSizeCmd
+        {
+            get
+            {
+                if (setYardSizeCmd == null)
+                {
+                    setYardSizeCmd = new Command<string>((buttonClicked) => 
+                    {
+                        switch (buttonClicked)
+                        {
+                            case "Tiny":
+                                TargetPlant.MaxHeight = 3;
+                                YardSize = YardSizeTypes.Tiny;
+                                break;
+                            case "Small":
+                                TargetPlant.MaxHeight = 8;
+                                YardSize = YardSizeTypes.Small;
+                                break;
+                            case "Big":
+                                TargetPlant.MaxHeight = 1000;
+                                YardSize = YardSizeTypes.Big;
+                                break;
+                        }
+                        SetPlantList();
+
+                    });
+                }
+                return setYardSizeCmd;
+            }
+        }
+
+        //Command for setting plant size based on how large the person's yard is
+        private Command setYardSunCmd;
+        public ICommand SetYardSunCmd
+        {
+            get
+            {
+                if (setYardSunCmd == null)
+                {
+                    setYardSunCmd = new Command<string>((buttonClicked) =>
+                    {
+                        switch (buttonClicked)
+                        {
+                            case "Full":
+                                TargetPlant.Sun ^= SunRequirements.Full;
+                                break;
+                            case "Part":
+                                TargetPlant.Sun ^= SunRequirements.Partial;
+                                break;
+                            case "Shade":
+                                TargetPlant.Sun ^= SunRequirements.Shade;
+                                break;
+                        }
+                        YardSun = TargetPlant.Sun;
+                        SetPlantList();
+
+                    });
+                }
+                return setYardSunCmd;
             }
         }
 

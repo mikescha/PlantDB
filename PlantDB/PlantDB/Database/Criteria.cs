@@ -21,6 +21,7 @@ namespace PlantDB.Data
             FloweringMonths = FloweringMonths.AllMonths;
             PlantTypes = PlantTypes.AllPlantTypes;
             Sun = SunRequirements.AllSunTypes;
+            MaxHeight = 1000;
 
         }
 
@@ -66,6 +67,21 @@ namespace PlantDB.Data
             }
             get { return sun; }
         }
+
+        float maxHeight;
+        public float MaxHeight
+        {
+            set
+            {
+                if (maxHeight != value)
+                {
+                    maxHeight = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return maxHeight; }
+        }
+
         #endregion fields
 
         public event PropertyChangedEventHandler PropertyChanged;

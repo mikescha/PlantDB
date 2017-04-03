@@ -212,4 +212,82 @@ namespace PlantDB
         }
     }
 
+    // Takes a boolean, and returns back TrueText if the parameter was True, or FalseText otherwise. 
+    // One use: If the shopping cart state is False, then show the text, "Add to Cart"
+    public class BoolToStringConverter : IValueConverter
+    {
+        public string TrueText { set; get; }
+        public string FalseText { set; get; }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (bool)value ? TrueText : FalseText;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return false;
+        }
+    }
+
+    // Takes one enum, and returns true if the parameter has the same bit set
+    // One use: if the YardSize matches the button ID representing that YardSize then color the button to indicate it is pressed
+    public class YardSizeStringConverter : IValueConverter
+    {
+        public string TrueText { set; get; }
+        public string FalseText { set; get; }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            YardSizeTypes target = (YardSizeTypes)value;
+            YardSizeTypes button = YardSizeTypes.NA;
+
+            switch(parameter){
+                case "Tiny":
+                    button = YardSizeTypes.Tiny;
+                    break;
+                case "Small":
+                    button = YardSizeTypes.Small;
+                    break;
+                case "Big":
+                    button = YardSizeTypes.Big;
+                    break;
+            }
+
+            return target.HasFlag(button) ? TrueText : FalseText;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return false;
+        }
+    }
+
+    // Takes one enum, and returns true if the parameter has the same bit set
+    // One use: if the YardSize matches the button ID representing that YardSize then color the button to indicate it is pressed
+    public class SunStringConverter : IValueConverter
+    {
+        public string TrueText { set; get; }
+        public string FalseText { set; get; }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            SunRequirements target = (SunRequirements)value;
+            SunRequirements button = SunRequirements.NotApplicable;
+
+            switch (parameter)
+            {
+                case "Full":
+                    button = SunRequirements.Full;
+                    break;
+                case "Part":
+                    button = SunRequirements.Partial;
+                    break;
+                case "Shade":
+                    button = SunRequirements.Shade;
+                    break;
+            }
+
+            return target.HasFlag(button) ? TrueText : FalseText;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return false;
+        }
+    }
 }
