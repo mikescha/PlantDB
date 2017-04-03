@@ -8,3 +8,7 @@ Plant normalization steps:
 1. Ensure that months are exactly the twelve months separated by commas. Found a couple separated by periods and one separated by spaces.
 2. Ensure that "Annual herb" is changed to "Annual_herb" and same for perennial
 3. Ensure that each plant has exactly one Plant Type (unless it's really important that it support multiple, in which I'll change the code)
+4. Change "Drought tolerant" to "DroughtTolerant"
+5. In Drainage, change ? to "Unknown"
+6. In pH change "?" to -1.0
+7. Make sure all "X" in columns like AttractsBirds are "Yes"

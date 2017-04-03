@@ -91,8 +91,9 @@
     <Compile Include="FileAccessHelper.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <BundleResource Include="..\miniplant.db3">
-      <Link>Resources\miniplant.db3</Link>
+    <BundleResource Include="..\PlantDB\plant.db3">
+      <Link>Resources\plant.db3</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
     <None Include="app.config" />
     <None Include="Entitlements.plist" />

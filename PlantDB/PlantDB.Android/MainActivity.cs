@@ -21,7 +21,7 @@ namespace PlantDB.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 
-            string dbPath = FileAccessHelper.GetLocalFilePath("miniplant.db3");
+            string dbPath = FileAccessHelper.GetLocalFilePath("plant.db3");
             LoadApplication(new App(dbPath));
         }
     }

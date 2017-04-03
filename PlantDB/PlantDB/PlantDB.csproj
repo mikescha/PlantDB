@@ -119,6 +119,7 @@
   <ItemGroup>
     <None Include="miniplant.db3" />
     <None Include="packages.config" />
+    <None Include="plant.db3" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="readme.txt" />

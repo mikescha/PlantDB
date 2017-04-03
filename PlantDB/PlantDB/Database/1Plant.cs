@@ -7,11 +7,11 @@ using System.Runtime.CompilerServices;
  */
 namespace PlantDB.Data
 {
-    [Table("PlantDB")]
+    [Table("Plants")]
     public partial class Plant : INotifyPropertyChanged
     {
         private int id;
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey, AutoIncrement, Unique]
         [Column("ID")]
         public int ID
         {
@@ -43,6 +43,22 @@ namespace PlantDB.Data
             }
         }
 
+        private string plantURL;
+        [Column("URL")]
+        public string PlantURL
+        {
+            get
+            {
+                return plantURL;
+            }
+
+            set
+            {
+                this.plantURL = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string scientificName;
         [Column("ScientificName")]
         public string ScientificName
@@ -60,7 +76,7 @@ namespace PlantDB.Data
         }
 
         private PlantTypes plantType;
-        [Column("PlantTypes")]
+        [Column("Type")]
         public PlantTypes PlantType
         {
             get
@@ -122,6 +138,38 @@ namespace PlantDB.Data
             }
         }
 
+        private float minWidth;
+        [Column("MinWidth")]
+        public float MinWidth
+        {
+            get
+            {
+                return minWidth;
+            }
+
+            set
+            {
+                this.minWidth = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private float maxWidth;
+        [Column("MaxWidth")]
+        public float MaxWidth
+        {
+            get
+            {
+                return maxWidth;
+            }
+
+            set
+            {
+                this.maxWidth = value;
+                OnPropertyChanged();
+            }
+        }
+
         private FloweringMonths floweringMonths;
         [Column("FloweringMonths")]
         public FloweringMonths FloweringMonths
@@ -154,7 +202,297 @@ namespace PlantDB.Data
                 OnPropertyChanged();
             }
         }
-        
+
+        private string waterReqs;
+        [Column("Watering")]
+        public string WaterReqs
+        {
+            get
+            {
+                return waterReqs;
+            }
+
+            set
+            {
+                this.waterReqs = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int minRain;
+        [Column("MinRain")]
+        public int MinRain
+        {
+            get
+            {
+                return minRain;
+            }
+
+            set
+            {
+                this.minRain = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int maxRain;
+        [Column("MaxRain")]
+        public int MaxRain
+        {
+            get
+            {
+                return maxRain;
+            }
+
+            set
+            {
+                this.maxRain = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string visuals;
+        [Column("Visuals")]
+        public string Visuals
+        {
+            get
+            {
+                return visuals;
+            }
+
+            set
+            {
+                this.visuals = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int minTemp;
+        [Column("MinTemp")]
+        public int MinTemp
+        {
+            get
+            {
+                return minTemp;
+            }
+
+            set
+            {
+                this.minTemp = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string soil;
+        [Column("Soil")]
+        public string Soil
+        {
+            get
+            {
+                return soil;
+            }
+
+            set
+            {
+                this.soil = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private float minSoilpH;
+        [Column("MinSoilpH")]
+        public float MinSoilpH
+        {
+            get
+            {
+                return minSoilpH;
+            }
+
+            set
+            {
+                this.minSoilpH = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private float maxSoilpH;
+        [Column("MaxSoilpH")]
+        public float MaxSoilpH
+        {
+            get
+            {
+                return maxSoilpH;
+            }
+
+            set
+            {
+                this.maxSoilpH = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string drainage;
+        [Column("CNPSDrainage")]
+        public string Drainage
+        {
+            get
+            {
+                return drainage;
+            }
+
+            set
+            {
+                this.drainage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string attractsBees;
+        [Column("AttractsBees")]
+        public string AttractsBees
+        {
+            get
+            {
+                return attractsBees;
+            }
+
+            set
+            {
+                this.attractsBees = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string attractsButterflies;
+        [Column("AttractsButterflies")]
+        public string AttractsButterflies
+        {
+            get
+            {
+                return attractsButterflies;
+            }
+
+            set
+            {
+                this.attractsButterflies = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string attractsHummingbirds;
+        [Column("AttractsHummingbirds")]
+        public string AttractsHummingbirds
+        {
+            get
+            {
+                return attractsHummingbirds;
+            }
+
+            set
+            {
+                this.attractsHummingbirds = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string attractsSongbirds;
+        [Column("AttractsSongbirds")]
+        public string AttractsSongbirds
+        {
+            get
+            {
+                return attractsSongbirds;
+            }
+
+            set
+            {
+                this.attractsSongbirds = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string notes;
+        [Column("Notes")]
+        public string Notes
+        {
+            get
+            {
+                return notes;
+            }
+
+            set
+            {
+                this.notes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string containers;
+        [Column("Containers")]
+        public string Containers
+        {
+            get
+            {
+                return containers;
+            }
+
+            set
+            {
+                this.containers = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        private int minElevation;
+        [Column("MinElevation")]
+        public int MinElevation
+        {
+            get
+            {
+                return minElevation;
+            }
+
+            set
+            {
+                this.minElevation = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int maxElevation;
+        [Column("MaxElevation")]
+        public int MaxElevation
+        {
+            get
+            {
+                return maxElevation;
+            }
+
+            set
+            {
+                this.maxElevation = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private long counties;
+        [Column("Counties")]
+        public long Counties
+        {
+            get
+            {
+                return counties;
+            }
+
+            set
+            {
+                this.counties = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         //Note that the only time we set the name in the cart is when the value changes. This works for the intial run because
         //the InCart value is set after the Name is set because of the column order. If this ever got re-ordered so that InCart
         //came before Name, then this code needs to change. Also, this assumes that the user is never allowed to change the 
