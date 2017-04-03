@@ -28,15 +28,6 @@
             <local:NumberToBoolConverter         x:Key="numberToBoolConverter" />
             <local:NumberToBoolConverterOpposite x:Key="numberToBoolConverterOpposite" />
             <local:SunToStringConverter          x:Key="sunToStringConverter"/>
-
-            <!--
-            <tools:PlantTypeToStringConverter    x:Key="plantTypeToStringConverter" />
-
-            <tools:BoolToStringConverter x:Key="AddRemoveCartText" 
-                                         TrueText="Remove from cart"
-                                         FalseText="Add to cart"/>
-
--->
         </ResourceDictionary>
     </ContentPage.Resources>
     

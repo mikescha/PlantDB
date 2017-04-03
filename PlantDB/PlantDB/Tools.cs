@@ -27,6 +27,16 @@ namespace PlantDB
         }
     }
 
+    [ContentProperty("Source")]
+    public class GetImageResource : IMarkupExtension
+    {
+        public string Source { get; set; }
+        public object ProvideValue(IServiceProvider serviceProvider)
+        {
+            if (Source == null) return null;
+            return ImageSource.FromResource(Source);
+        }
+    }
 
     // Takes a SunType, and returns back a pretty string
     public class SunToStringConverter : IValueConverter
@@ -284,6 +294,21 @@ namespace PlantDB
             }
 
             return target.HasFlag(button) ? TrueText : FalseText;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return false;
+        }
+    }
+
+
+    // Takes a boolean, and returns back the opposite. 
+    // One use: If the error message is visible then stop the spinner.
+    public class BoolNotConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return !(bool)value ;
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {

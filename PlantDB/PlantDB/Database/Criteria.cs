@@ -82,6 +82,26 @@ namespace PlantDB.Data
             get { return maxHeight; }
         }
 
+        //location detected by the GPS
+        double lat;
+        public double Lat
+        {
+            set
+            {
+                if (Lat != value)
+                {
+                    lat = value;
+                    OnPropertyChanged();
+                }
+            }
+            get
+            {
+                return lat;
+            }
+        }
+        public double Lng { set; get; }
+        public string UserCounty { get; set; }
+
         #endregion fields
 
         public event PropertyChangedEventHandler PropertyChanged;

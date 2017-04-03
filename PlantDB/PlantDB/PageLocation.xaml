@@ -9,6 +9,11 @@
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness" iOS="0, 20, 0, 0" WinPhone="0,5,5,10" Android="5,5,5,5"/>
     </ContentPage.Padding>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BoolNotConverter x:Key="Opposite"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,8 +24,30 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
+        <StackLayout x:Name="GPSLocation"
+                     Grid.Row="0" Grid.Column="0"
+                     HeightRequest="150">
+
+            <Label x:Name="labelStatus" 
+                   Text="Looking for your location..."
+                   Style="{StaticResource H2Style}"/>
+
+            <ActivityIndicator IsVisible="{Binding Source={x:Reference labelResult}, Path=IsVisible, Converter={StaticResource Opposite}}"
+                               IsRunning="{Binding Source={x:Reference labelResult}, Path=IsVisible, Converter={StaticResource Opposite}}"/>
+
+            <StackLayout Padding="12,0,4,4">
+                <!--text set in the code-behind file-->
+                <Label x:Name="labelCityState"/>
+                <Label x:Name="labelCounty"/>
+            </StackLayout>
+            
+            <!--Messages to user. IsVisible is set to True as appropriate in the code-behind file based on the outcome of the GPS search-->
+            <Label x:Name="labelResult" 
+                   IsVisible="False"/>
+        </StackLayout>
         
-        <Label Text="Location Page"/>
+        
 
     </Grid>
 
