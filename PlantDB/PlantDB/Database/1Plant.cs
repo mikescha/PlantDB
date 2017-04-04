@@ -491,23 +491,51 @@ namespace PlantDB.Data
             }
         }
 
-        private string counties;
+        private string countyString;
         [Column("Counties")]
-        public string Counties
+        public string CountyString
         {
             get
             {
-                return counties;
+                return countyString;
             }
 
             set
             {
-                this.counties = value;
-                OnPropertyChanged();
+                if (this.countyString != value)
+                {
+                    this.countyString = value;
+                    OnPropertyChanged();
+
+                    /*
+                     * 
+                        //Now, convert the blob holding the counties into an enum. There should be exactly 58 characters representing
+                        //which counties the plant is associated with. Walk through each character and if it is the right token then 
+                        //add the appropriate county to the enum
+                        if (value.Length != 58)
+                        {
+                            throw new System.InvalidOperationException("Plant does not have 58 counties");
+                        }
+                        for (int i = 0; i < value.Length; i++)
+                        {
+                            if (value[i] == '1')
+                            {
+                                CountyList = CountyList | (Counties)(2^i);   
+                            }
+                            else if (value[i] != '_')
+                            {
+                                throw new System.InvalidOperationException("Invalid character in county blob");
+                            }
+                        }
+                     * 
+                     */
+
+
+                }
             }
         }
-       
 
+       
         //Note that the only time we set the name in the cart is when the value changes. This works for the intial run because
         //the InCart value is set after the Name is set because of the column order. If this ever got re-ordered so that InCart
         //came before Name, then this code needs to change. Also, this assumes that the user is never allowed to change the 

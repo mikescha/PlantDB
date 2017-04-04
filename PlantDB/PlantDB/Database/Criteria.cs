@@ -9,13 +9,16 @@ namespace PlantDB.Data
 {
     public class Criteria : INotifyPropertyChanged
     {
-        //Constructor -- set all the defaults to whatever we want the starting state to be, as the criteria gets
-        //applied every time the list is drawn
+        //Constructor -- set all the defaults to whatever we want the starting state to be
         public Criteria()
         {
             ResetCriteria();
+            targetCounty = Counties.None;
         }
 
+        //Called at launch time, but also any time the user picks, "Show all plants". This should only reset the
+        //criteria that are location independent! i.e. don't reset altitude or location, as when the user clears their
+        //filters they should still only see plants valid for their location. 
         public void ResetCriteria()
         {
             FloweringMonths = FloweringMonths.AllMonths;
@@ -82,25 +85,8 @@ namespace PlantDB.Data
             get { return maxHeight; }
         }
 
-        //location detected by the GPS
-        double lat;
-        public double Lat
-        {
-            set
-            {
-                if (Lat != value)
-                {
-                    lat = value;
-                    OnPropertyChanged();
-                }
-            }
-            get
-            {
-                return lat;
-            }
-        }
-        public double Lng { set; get; }
-        public string UserCounty { get; set; }
+        //counties that the user wants
+        public Counties targetCounty;
 
         #endregion fields
 

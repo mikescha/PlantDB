@@ -19,13 +19,50 @@ namespace PlantDB
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PageLocation : ContentPage
     {
+        #region constants and fields
+        //Coordinates we get from the GPS
+        private double lat = 0;
+        private double lng = 0;
+        
+        //Stores the county that we get from the Geolocation/Reverse Geocoding process. This is then converted 
+        //to the county the user wants, which gets stored in the view model
+        private string GPSCounty = "";
+        #endregion constants and fields
+
         public PageLocation()
         {
             InitializeComponent();
             GetLocation();
         }
 
-        async void GetLocation()
+        //Gets the user's current location, stores it in the ViewModel, and updates the UI to show the user
+        async Task GetLocation()
+        {
+            Plugin.Geolocator.Abstractions.Position position;
+
+            position = await GetGPSCoordinates();
+            if (position != null)
+            {
+                lat = position.Latitude;
+                lng = position.Longitude;
+
+                await ReverseGeocode();
+
+                SetUserCounty();
+            }
+            ReportResults();
+        }
+        
+        //used in ParseMapResponse only
+        private class AddressElement
+        {
+            public string long_name;
+            public string short_name;
+            public string type;
+        }
+
+        //call the device's location service to get the GPS coordinates
+        private async Task<Plugin.Geolocator.Abstractions.Position> GetGPSCoordinates()
         {
             var locator = CrossGeolocator.Current;
             locator.DesiredAccuracy = 50;
@@ -39,52 +76,15 @@ namespace PlantDB
             catch (Exception e)
             {
                 position = null;
-                //TODO Turn off the spinner, show the error message label
-
             }
-            
-            labelStatus.Text = "Your location:";
-
-            if (position != null)
-            {
-                App.PlantData.TargetPlant.Lat = position.Latitude;
-                App.PlantData.TargetPlant.Lng = position.Longitude;
-
-                ReverseGeocode();
-            }
-
-            //SetUserCounty();
-
-            
-            if (App.PlantData.TargetPlant.UserCounty != "")
-            {
-                labelResult.Text = "If this is not the location you want, use the Customize controls to choose a different county.";
-            }
-            else if (position != null)
-            {
-                labelResult.Text = "You are outside the area supported by this app. Use the Customize controls to choose a county within range.";
-            }
-            else
-            {
-                labelResult.Text = "Unable to get your location. Please use the Customize controls to pick your county.";
-            }
-            labelResult.IsVisible = true;
-
+            return position;
         }
 
-        private class AddressElement
-        {
-            public string long_name;
-            public string short_name;
-            public string type;
-        }
-
-        private async void ReverseGeocode()
+        //call the Google web API to take the coordinates and turn them into the name of the location
+        private async Task<bool> ReverseGeocode()
         {
             string GoogleKey = "AIzaSyCTQFfvVgPT7Czy8ddpbAzVo1QB2y894ws";
-
-            double lat = App.PlantData.TargetPlant.Lat;
-            double lng = App.PlantData.TargetPlant.Lng;
+            bool result;
 
             try
             {
@@ -96,17 +96,20 @@ namespace PlantDB
                 string[] items = await ParseMapResponse(responseString);
 
                 labelCityState.Text = items[0] + ", " + items[1];
-                labelCounty.Text = items[2];
-                App.PlantData.TargetPlant.UserCounty = items[2];
+
+                GPSCounty = CleanCountyString(items[2]);
+                labelCounty.Text = GPSCounty + " County";
+                result = true;
             }
             catch
             {
-                //Error
-                ;
+                //TODO Handle the error if we can't connect to the net or Google doesn't respond in time
+                result = false;
             }
-            
+            return result;
         }
 
+        //take what Google gave us and turn it into actual strings
         private async Task<string[]> ParseMapResponse(string response)
         {
             return await Task.Run(() =>
@@ -136,5 +139,101 @@ namespace PlantDB
                 return s;
             });
         }
+
+        //Removes the word " County" plus anything else we discover to normalize the county string we get from Google
+        private string CleanCountyString(string county)
+        {
+            //TODO: Need to normalize the string to a specific capitalization format, so that we don't fail because sometimes google returns, "Foo county"
+            if (county != null)
+            {
+                List<string> badStrings = new List<string>() { " County" };
+
+                foreach (string s in badStrings)
+                {
+                    if (county.Contains(s))
+                    {
+                        county = county.Substring(0, county.LastIndexOf(s));
+                    }
+                }
+            }
+            return county;
+        }
+
+        //Check that the county we found is a valid CA county, and then set it in the ViewModel 
+        private void SetUserCounty()
+        {
+            //List of counties must be kept in sync with the enum of counties in PlantEnums.cs
+            List<string> CountyList = new List<string>()
+            {   "None",
+                "Alameda", "Alpine", "Amador", "Butte", "Calaveras", "Contra Costa", "Colusa", "Del Norte",
+                "El Dorado", "Fresno", "Glenn", "Humboldt", "Imperial", "Inyo", "Kings", "Kern", "Lake",
+                "Lassen", "Los Angeles", "Madera", "Mendocino", "Merced", "Mono", "Monterey", "Modoc",
+                "Mariposa", "Marin", "Napa", "Nevada", "Orange", "Placer", "Plumas", "Riverside", "Sacramento",
+                "Santa Barbara", "San Bernardino", "San Benito", "Santa Clara", "Santa Cruz", "San Diego",
+                "San Francisco", "Shasta", "Sierra", "Siskiyou", "San Joaquin", "San Luis Obispo", "San Mateo",
+                "Solano", "Sonoma", "Stanislaus", "Sutter", "Tehama", "Trinity", "Tulare", "Tuolumne", "Ventura",
+                "Yolo", "Yuba"
+            };
+
+            App.PlantData.TargetPlant.targetCounty = Data.Counties.None;
+            if (GPSCounty != null)
+            {
+                try
+                {
+                    int index = CountyList.FindIndex(x => x.Equals(GPSCounty));
+
+                    if (index > 0)
+                    {
+                        App.PlantData.TargetPlant.targetCounty = (Data.Counties)index;
+                    }
+                    else if (index == 0)
+                    {
+                        //somehow "None" was set, this should never happen
+                        throw new System.InvalidOperationException("County string can not be None");
+                    }
+                    else //index is negative, meaning we have a county but it could not be found
+                    {
+                        //This should mean the user has a valid location but not in California, or it means
+                        //there is a spelling error
+                        //TODO: is there some kind of check I can do to determine if there was a spelling error?
+                    }
+                }
+                catch
+                {
+                    //if error occurred then we shouldn't have to do anything, as all of the variables are 
+                    //initialized elsewhere, and error states are expected.
+                }
+                
+            }
+        }
+
+        /* Report results to the user. Cases: 
+         *   1) If we have a county set in the ViewModel, then all is well.
+         *   2) If we have no county in the ViewModel, but we did get a county string, then
+         *      the process worked, but the user is not in a valid location. The user needs to pick their location.
+         *   3) If we didn't end up with any county string, then something went wrong with the 
+         *      geolocation/reverse geocoding. The user has to pick the county themselves.
+         */
+        private void ReportResults()
+        {
+            labelStatus.Text = "Your location:";
+
+            if (App.PlantData.TargetPlant.targetCounty != Data.Counties.None)
+            {
+                labelResult.Text = "If this is not the location you want, use the Customize controls to choose a different county.";
+            }
+            else if (GPSCounty != null)
+            {
+                labelResult.Text = "You are outside the area supported by this app. Use the Customize controls to choose a county within range.";
+            }
+            else
+            {
+                labelResult.Text = "Unable to get your location. Please use the Customize controls to pick your county.";
+            }
+            //This shows the label and also stops the progress indicator
+            labelResult.IsVisible = true;
+
+        }
+
     }
 }

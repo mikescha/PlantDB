@@ -315,16 +315,16 @@ namespace PlantDB
                 List<string> result = new List<string>();
 
                 if (p.AttractsButterflies.HasFlag(YesNoMaybe.Yes))
-                    result.Add("Butterflies");
+                    result.Add("butterflies");
 
                 if (p.AttractsBees.HasFlag(YesNoMaybe.Yes))
-                    result.Add("Bees");
+                    result.Add("bees");
 
                 if (p.AttractsSongbirds.HasFlag(YesNoMaybe.Yes))
-                    result.Add("Songbirds");
+                    result.Add("songbirds");
 
                 if (p.AttractsHummingbirds.HasFlag(YesNoMaybe.Yes))
-                    result.Add("Hummingbirds");
+                    result.Add("hummingbirds");
 
                 switch (result.Count)
                 {
@@ -332,16 +332,24 @@ namespace PlantDB
                         fullMessage = "None";
                         break;
                     case 1:
-                        fullMessage = result[0];
+                        fullMessage = char.ToUpper(result[0][0]) + result[0].Substring(1);
                         break;
                     case 2:
-                        fullMessage = result[0] + " and " + result[1];
+                        fullMessage = char.ToUpper(result[0][0]) + result[0].Substring(1) + " and " + result[1];
                         break;
                     default:
                         int i;
                         for (i = 0; i < result.Count - 1; i++)
                         {
-                            fullMessage += result[i] + ", ";
+                            if (i==0)
+                            {
+                                fullMessage += char.ToUpper(result[0][0]) + result[0].Substring(1) + ", ";
+                            }
+                            else
+                            {
+                                fullMessage += result[i] + ", ";
+                            }
+                            
                         }
                         fullMessage += "and " + result[i];
                         break;
