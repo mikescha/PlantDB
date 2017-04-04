@@ -506,31 +506,6 @@ namespace PlantDB.Data
                 {
                     this.countyString = value;
                     OnPropertyChanged();
-
-                    /*
-                     * 
-                        //Now, convert the blob holding the counties into an enum. There should be exactly 58 characters representing
-                        //which counties the plant is associated with. Walk through each character and if it is the right token then 
-                        //add the appropriate county to the enum
-                        if (value.Length != 58)
-                        {
-                            throw new System.InvalidOperationException("Plant does not have 58 counties");
-                        }
-                        for (int i = 0; i < value.Length; i++)
-                        {
-                            if (value[i] == '1')
-                            {
-                                CountyList = CountyList | (Counties)(2^i);   
-                            }
-                            else if (value[i] != '_')
-                            {
-                                throw new System.InvalidOperationException("Invalid character in county blob");
-                            }
-                        }
-                     * 
-                     */
-
-
                 }
             }
         }

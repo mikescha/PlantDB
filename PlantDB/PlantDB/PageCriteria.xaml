@@ -119,7 +119,7 @@
                                 CommandParameter="Full"
                                 TextColor="{Binding YardSun, Converter={StaticResource SunButtonTextHighlight}, ConverterParameter=Full}"
                                 BackgroundColor="{Binding YardSun, Converter={StaticResource SunButtonHighlight}, ConverterParameter=Full}"/>
-                        <Label Text="Balcony or deck"/>
+                        <Label Text="Gets sun all or most of the day"/>
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal"
@@ -131,7 +131,7 @@
                                 CommandParameter="Part"
                                 TextColor="{Binding YardSun, Converter={StaticResource SunButtonTextHighlight}, ConverterParameter=Part}"
                                 BackgroundColor="{Binding YardSun, Converter={StaticResource SunButtonHighlight}, ConverterParameter=Part}"/>
-                        <Label Text="Typical city lot, up to 0.25 acre"/>
+                        <Label Text="Get full sun for part of the day, such as only in the afternoon"/>
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal"
@@ -143,7 +143,7 @@
                                 CommandParameter="Shade"
                                 TextColor="{Binding YardSun, Converter={StaticResource SunButtonTextHighlight}, ConverterParameter=Shade}"
                                 BackgroundColor="{Binding YardSun, Converter={StaticResource SunButtonHighlight}, ConverterParameter=Shade}"/>
-                        <Label Text="More than 0.25 acre"/>
+                        <Label Text="Full shade or sun filtered through leaves most of the day"/>
                     </StackLayout>
 
                 </StackLayout>
