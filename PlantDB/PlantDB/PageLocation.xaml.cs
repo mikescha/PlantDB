@@ -13,6 +13,7 @@ using System.Net;
 using System.IO;
 using System.Xml.Linq;
 using System.Net.Http;
+using System.Collections.ObjectModel;
 
 namespace PlantDB
 {
@@ -20,6 +21,18 @@ namespace PlantDB
     public partial class PageLocation : ContentPage
     {
         #region constants and fields
+        //List of counties must be kept in sync with the enum of counties in PlantEnums.cs
+        public static List<string> CountyList = new List<string>()
+            {   "All",
+                "Alameda", "Alpine", "Amador", "Butte", "Calaveras", "Contra Costa", "Colusa", "Del Norte",
+                "El Dorado", "Fresno", "Glenn", "Humboldt", "Imperial", "Inyo", "Kings", "Kern", "Lake",
+                "Lassen", "Los Angeles", "Madera", "Mendocino", "Merced", "Mono", "Monterey", "Modoc",
+                "Mariposa", "Marin", "Napa", "Nevada", "Orange", "Placer", "Plumas", "Riverside", "Sacramento",
+                "Santa Barbara", "San Bernardino", "San Benito", "Santa Clara", "Santa Cruz", "San Diego",
+                "San Francisco", "Shasta", "Sierra", "Siskiyou", "San Joaquin", "San Luis Obispo", "San Mateo",
+                "Solano", "Sonoma", "Stanislaus", "Sutter", "Tehama", "Trinity", "Tulare", "Tuolumne", "Ventura",
+                "Yolo", "Yuba"
+            };
         //Coordinates we get from the GPS
         private double lat = 0;
         private double lng = 0;
@@ -32,6 +45,11 @@ namespace PlantDB
         public PageLocation()
         {
             InitializeComponent();
+            
+            //Necessary so that the label can show which county is selected. Can't figure out how to do this in XAML :-(
+            BindingContext = App.PlantData.TargetPlant;
+
+            countyListView.ItemsSource = searchCounty;
             GetLocation();
         }
 
@@ -162,20 +180,7 @@ namespace PlantDB
         //Check that the county we found is a valid CA county, and then set it in the ViewModel 
         private void SetUserCounty()
         {
-            //List of counties must be kept in sync with the enum of counties in PlantEnums.cs
-            List<string> CountyList = new List<string>()
-            {   "None",
-                "Alameda", "Alpine", "Amador", "Butte", "Calaveras", "Contra Costa", "Colusa", "Del Norte",
-                "El Dorado", "Fresno", "Glenn", "Humboldt", "Imperial", "Inyo", "Kings", "Kern", "Lake",
-                "Lassen", "Los Angeles", "Madera", "Mendocino", "Merced", "Mono", "Monterey", "Modoc",
-                "Mariposa", "Marin", "Napa", "Nevada", "Orange", "Placer", "Plumas", "Riverside", "Sacramento",
-                "Santa Barbara", "San Bernardino", "San Benito", "Santa Clara", "Santa Cruz", "San Diego",
-                "San Francisco", "Shasta", "Sierra", "Siskiyou", "San Joaquin", "San Luis Obispo", "San Mateo",
-                "Solano", "Sonoma", "Stanislaus", "Sutter", "Tehama", "Trinity", "Tulare", "Tuolumne", "Ventura",
-                "Yolo", "Yuba"
-            };
-
-            App.PlantData.TargetPlant.targetCounty = Data.Counties.None;
+            App.PlantData.TargetPlant.TargetCounty = Data.Counties.All;
             if (GPSCounty != null)
             {
                 try
@@ -184,7 +189,7 @@ namespace PlantDB
 
                     if (index > 0)
                     {
-                        App.PlantData.TargetPlant.targetCounty = (Data.Counties)index;
+                        App.PlantData.TargetPlant.TargetCounty = (Data.Counties)index;
                     }
                     else if (index == 0)
                     {
@@ -218,7 +223,7 @@ namespace PlantDB
         {
             labelStatus.Text = "Your location:";
 
-            if (App.PlantData.TargetPlant.targetCounty != Data.Counties.None)
+            if (App.PlantData.TargetPlant.TargetCounty != Data.Counties.All)
             {
                 labelResult.Text = "If this is not the location you want, use the Customize controls to choose a different county.";
             }
@@ -235,5 +240,40 @@ namespace PlantDB
 
         }
 
+        //Search county is used for searching and autofiltering
+        public ObservableCollection<string> searchCounty = new ObservableCollection<string>(CountyList);
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            searchCounty.Clear();
+
+            foreach (string c in CountyList)
+            {
+                string clean = c.ToLower();
+                if (clean.Contains(e.NewTextValue.ToLower()))
+                    searchCounty.Add(c);
+            }
+
+            //SearchCounty = ObservableCollection<string>(CountyList.FindAll(x => x.Contains(e.NewTextValue))) ;
+        }
+
+        private void SearchBar_ButtonPressed(object sender, EventArgs e)
+        {
+            //Do I need to do anything here? I assume that when the user types the last char then the above method gets hit
+            //if so the value I want is sender.Text
+            ;
+        }
+
+        private void countyListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            int index = CountyList.FindIndex(x => x.Equals(e.SelectedItem));
+
+            if (index >= 0)
+            {
+                App.PlantData.TargetPlant.TargetCounty = (Data.Counties)index;
+            }
+
+        }
     }
+
+    
 }

@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PlantDB.PageLocation"
              xmlns:local="clr-namespace:PlantDB"
-             Title="Location"
-             BindingContext="{x:Static local:App.PlantData}">
+             x:Name="page"
+             Title="Location">
 
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness" iOS="0, 20, 0, 0" WinPhone="0,5,5,10" Android="5,5,5,5"/>
@@ -12,6 +12,8 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:BoolNotConverter x:Key="Opposite"/>
+            <local:CountyIDtoStringConverter x:Key="countyIDtoStringConverter"/>
+
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -46,8 +48,26 @@
             <Label x:Name="labelResult" 
                    IsVisible="False"/>
         </StackLayout>
-        
-        
+
+        <StackLayout x:Name="CustomLocation"
+                     Grid.Row="0" Grid.Column="1">
+            
+            <Label Text="Customize"
+                   Style="{StaticResource H2Style}"/>
+            
+            <SearchBar x:Name="searchBar"
+                       Placeholder="Search for a different county"
+                       TextChanged="SearchBar_TextChanged"
+                       SearchButtonPressed="SearchBar_ButtonPressed"/>
+            
+            <ListView x:Name="countyListView"
+                      HeightRequest="250"
+                      ItemSelected="countyListView_ItemSelected"/>
+
+            <Label Text=""/>
+            <Label Text="{Binding TargetCounty, Converter={StaticResource countyIDtoStringConverter}, StringFormat='Using county: {0}'}"/>
+
+        </StackLayout>
 
     </Grid>
 

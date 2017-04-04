@@ -33,7 +33,7 @@ namespace PlantDB.Data
                             .Where(p => IncludesTypes(TargetPlant.PlantTypes, p.PlantType))
                             .Where(p => IncludesSun(TargetPlant.Sun, p.Sun))
                             .Where(p => p.MaxHeight <= TargetPlant.MaxHeight)
-                            .Where(p => CountiesMatch(TargetPlant.targetCounty, p.CountyString))
+                            .Where(p => CountiesMatch(TargetPlant.TargetCounty, p.CountyString))
                             .ToList();
             }
 
@@ -56,7 +56,11 @@ namespace PlantDB.Data
         //NOTE: this currently only allows the user to pick one county at a time
         private bool CountiesMatch(Counties userLocation, string plantLocation)
         {
-            return plantLocation[(int)userLocation] == '1' ? true : false ;
+            //If no county is set, then assume ALL and return
+            if (userLocation == 0)
+                return true;
+            //The "-1" is because the county numbers are 1-based and strings are zero-based
+            return plantLocation[(int)userLocation-1] == '1' ? true : false ;
         }
 
         // Returns true if the any of the flowering months contained in Wanted matches any of the flowering months in Test

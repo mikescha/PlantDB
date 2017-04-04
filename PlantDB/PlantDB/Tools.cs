@@ -379,4 +379,34 @@ namespace PlantDB
             return false;
         }
     }
+
+    
+    // Takes a plant and returns an aggregation of all the animals that use it
+    public class CountyIDtoStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            //TODO Put the list of counties where this code and the PageLocation code can get it
+            //List of counties must be kept in sync with the enum of counties in PlantEnums.cs
+            List<string> CountyList = new List<string>()
+            {   "All",
+                "Alameda", "Alpine", "Amador", "Butte", "Calaveras", "Contra Costa", "Colusa", "Del Norte",
+                "El Dorado", "Fresno", "Glenn", "Humboldt", "Imperial", "Inyo", "Kings", "Kern", "Lake",
+                "Lassen", "Los Angeles", "Madera", "Mendocino", "Merced", "Mono", "Monterey", "Modoc",
+                "Mariposa", "Marin", "Napa", "Nevada", "Orange", "Placer", "Plumas", "Riverside", "Sacramento",
+                "Santa Barbara", "San Bernardino", "San Benito", "Santa Clara", "Santa Cruz", "San Diego",
+                "San Francisco", "Shasta", "Sierra", "Siskiyou", "San Joaquin", "San Luis Obispo", "San Mateo",
+                "Solano", "Sonoma", "Stanislaus", "Sutter", "Tehama", "Trinity", "Tulare", "Tuolumne", "Ventura",
+                "Yolo", "Yuba"
+            };
+            return CountyList[(int)value];
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return false;
+        }
+    }
+
+
 }

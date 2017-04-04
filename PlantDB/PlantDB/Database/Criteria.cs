@@ -13,7 +13,7 @@ namespace PlantDB.Data
         public Criteria()
         {
             ResetCriteria();
-            targetCounty = Counties.None;
+            targetCounty = Counties.All;
         }
 
         //Called at launch time, but also any time the user picks, "Show all plants". This should only reset the
@@ -86,7 +86,20 @@ namespace PlantDB.Data
         }
 
         //counties that the user wants
-        public Counties targetCounty;
+        private Counties targetCounty;
+        public Counties TargetCounty
+        {
+            set
+            {
+                if (targetCounty != value)
+                {
+                    targetCounty = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return targetCounty; }
+        }
+
 
         #endregion fields
 

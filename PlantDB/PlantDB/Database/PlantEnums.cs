@@ -67,7 +67,7 @@ namespace PlantDB.Data
     //Must be kept in sync with the list of strings in PageLocation.xaml.cs
     public enum Counties
     {
-        None = 0,
+        All = 0,
         Alameda =  1,
         Alpine =  2,
         Amador =  3,
