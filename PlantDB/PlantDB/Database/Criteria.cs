@@ -9,11 +9,17 @@ namespace PlantDB.Data
 {
     public class Criteria : INotifyPropertyChanged
     {
+        public int AnyElevation = -999;
+        public int AnyTemp = 999;
+
+
         //Constructor -- set all the defaults to whatever we want the starting state to be
         public Criteria()
         {
             ResetCriteria();
-            targetCounty = Counties.All;
+            County = Counties.All;
+            Elevation = AnyElevation;
+            MinTemp = AnyTemp;
         }
 
         //Called at launch time, but also any time the user picks, "Show all plants". This should only reset the
@@ -29,7 +35,7 @@ namespace PlantDB.Data
         }
 
         #region fields
-        FloweringMonths floweringMonths;
+        private FloweringMonths floweringMonths;
         public FloweringMonths FloweringMonths
         {
             set
@@ -43,7 +49,7 @@ namespace PlantDB.Data
             get { return floweringMonths; }
         }
 
-        PlantTypes plantTypes;
+        private PlantTypes plantTypes;
         public PlantTypes PlantTypes
         {
             set
@@ -57,7 +63,7 @@ namespace PlantDB.Data
             get { return plantTypes; }
         }
 
-        SunRequirements sun;
+        private SunRequirements sun;
         public SunRequirements Sun
         {
             set
@@ -71,7 +77,7 @@ namespace PlantDB.Data
             get { return sun; }
         }
 
-        float maxHeight;
+        private float maxHeight;
         public float MaxHeight
         {
             set
@@ -86,21 +92,47 @@ namespace PlantDB.Data
         }
 
         //counties that the user wants
-        private Counties targetCounty;
-        public Counties TargetCounty
+        private Counties county;
+        public Counties County
         {
             set
             {
-                if (targetCounty != value)
+                if (county != value)
                 {
-                    targetCounty = value;
+                    county = value;
                     OnPropertyChanged();
                 }
             }
-            get { return targetCounty; }
+            get { return county; }
         }
 
+        private int elevation;
+        public int Elevation
+        {
+            set
+            {
+                if (elevation != value)
+                {
+                    elevation = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return elevation; }
+        }
 
+        private int minTemp;
+        public int MinTemp
+        {
+            set
+            {
+                if (minTemp != value)
+                {
+                    minTemp = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return minTemp; }
+        }
         #endregion fields
 
         public event PropertyChangedEventHandler PropertyChanged;

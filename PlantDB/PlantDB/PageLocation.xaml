@@ -13,7 +13,7 @@
         <ResourceDictionary>
             <local:BoolNotConverter x:Key="Opposite"/>
             <local:CountyIDtoStringConverter x:Key="countyIDtoStringConverter"/>
-
+            <local:ElevationConverter x:Key="elevationConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -65,8 +65,55 @@
                       ItemSelected="countyListView_ItemSelected"/>
 
             <Label Text=""/>
-            <Label Text="{Binding TargetCounty, Converter={StaticResource countyIDtoStringConverter}, StringFormat='Using county: {0}'}"/>
+            <Label Text="{Binding County, Converter={StaticResource countyIDtoStringConverter}, StringFormat='Using county: {0}'}"/>
 
+        </StackLayout>
+
+        <StackLayout x:Name="CustomStats"
+                     Grid.Row="1" Grid.Column="1">
+            <StackLayout x:Name="Elevation"
+                         Orientation="Horizontal">
+                <Label Text="Your approximate elevation"/>
+                <Entry Text="{Binding Elevation, Mode=TwoWay, Converter={StaticResource elevationConverter}}"
+                       Keyboard="Numeric"/>
+                <Label Text="feet"/>
+            </StackLayout>
+            <StackLayout x:Name="MinTemp">
+                <Label Text="The lowest winter temp you have"/>
+                <Picker x:Name="lowTempPicker"
+                        Title=""
+                        SelectedIndexChanged="OnPickerSelectedIndexChanged">
+                    <Picker.Items>
+                        <x:String>Any temperature</x:String>
+                        <x:String>40F</x:String>
+                        <x:String>32F</x:String>
+                        <x:String>25F</x:String>
+                        <x:String>20F</x:String>
+                        <x:String>10F</x:String>
+                        <x:String>0F</x:String>
+                        <x:String>-10F</x:String>
+                        <x:String>-20F</x:String>
+                    </Picker.Items>
+                    <Picker.SelectedIndex>
+                        <Binding Path="MinTemp">
+                            <Binding.Converter>
+                                <local:ObjectToIndexConverter x:TypeArguments="x:Int32">
+                                    <x:Int32>999</x:Int32>
+                                    <x:Int32>40</x:Int32>
+                                    <x:Int32>32</x:Int32>
+                                    <x:Int32>25</x:Int32>
+                                    <x:Int32>20</x:Int32>
+                                    <x:Int32>10</x:Int32>
+                                    <x:Int32>0</x:Int32>
+                                    <x:Int32>-10</x:Int32>
+                                    <x:Int32>-20</x:Int32>
+                                </local:ObjectToIndexConverter>
+                            </Binding.Converter>
+                        </Binding>
+                    </Picker.SelectedIndex>
+                </Picker>
+                
+            </StackLayout>
         </StackLayout>
 
     </Grid>

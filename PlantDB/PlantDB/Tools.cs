@@ -365,7 +365,6 @@ namespace PlantDB
         }
     }
     
-
     // Takes a boolean, and returns back the opposite. 
     // One use: If the error message is visible then stop the spinner.
     public class BoolNotConverter : IValueConverter
@@ -379,7 +378,6 @@ namespace PlantDB
             return false;
         }
     }
-
     
     // Takes a plant and returns an aggregation of all the animals that use it
     public class CountyIDtoStringConverter : IValueConverter
@@ -408,5 +406,55 @@ namespace PlantDB
         }
     }
 
+    //Takes a list of objects, and returns the one at a specified position.
+    //Used for databinding the dropdowns
+    [ContentProperty("Items")]
+    public class ObjectToIndexConverter<T> : IValueConverter
+    {
+        public IList<T> Items { set; get; }
 
+        public ObjectToIndexConverter()
+        {
+            Items = new List<T>();
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null  || Items == null)
+                return -1;
+            //TODO In my old code, "value is T" would be True if the type of the value was Object(Decimal). In this code, that is returning False. IDKW!!!
+            //So, I pulled this out of the expression above and am commenting it out for now. I'm not sure I need it because
+            //this was written to make a generic class that would work anywhere and I'm only using it in controlled circumstances.
+            //But if it starts crashing for some reason then I'll need to put it back and work through the issue
+            //if (value == null  || Items == null || !(value is T) )
+
+            return Items.IndexOf((T)value);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            int index = (int)value;
+
+            if (index < 0 || Items == null || index >= Items.Count)
+                return null;
+
+            return Items[index];
+        }
+    }
+
+    // Converts the contents of the Elevation box to a value. Needed because we want to have a special value Any
+    // that isn't tied to a particular elevation
+    public class ElevationConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (int)(value) == -999 ? "Any" : value;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string s = (string)value;
+
+           return s.ToLower() == "any" ? -999 : value;
+        }
+    }
 }

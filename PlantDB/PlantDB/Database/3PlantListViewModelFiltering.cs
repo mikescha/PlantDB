@@ -33,7 +33,9 @@ namespace PlantDB.Data
                             .Where(p => IncludesTypes(TargetPlant.PlantTypes, p.PlantType))
                             .Where(p => IncludesSun(TargetPlant.Sun, p.Sun))
                             .Where(p => p.MaxHeight <= TargetPlant.MaxHeight)
-                            .Where(p => CountiesMatch(TargetPlant.TargetCounty, p.CountyString))
+                            .Where(p => CountiesMatch(TargetPlant.County, p.CountyString))
+                            .Where(p => ElevationMatch(TargetPlant.Elevation, p))
+                            .Where(p => p.MinTemp <= TargetPlant.MinTemp)
                             .ToList();
             }
 
@@ -49,6 +51,13 @@ namespace PlantDB.Data
 
 
         #region Includes operations
+        //Returns true if the target elevation is within range of the plant's elevations, or if 
+        //there is no specific elevation target
+        private bool ElevationMatch(int Target, Plant p)
+        {
+            return (Target == TargetPlant.AnyElevation) || (p.MinElevation <= Target && p.MaxElevation >= Target);
+        }
+
         //Returns true if the county the user wants matches the county in which this plant is known to exist.
         //userLocation will be set on the Location page
         //plantLocation is the string representing the data we know about a plant; a '1' at a location indicates the

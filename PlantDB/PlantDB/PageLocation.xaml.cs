@@ -180,21 +180,16 @@ namespace PlantDB
         //Check that the county we found is a valid CA county, and then set it in the ViewModel 
         private void SetUserCounty()
         {
-            App.PlantData.TargetPlant.TargetCounty = Data.Counties.All;
+            App.PlantData.TargetPlant.County = Data.Counties.All;
             if (GPSCounty != null)
             {
                 try
                 {
                     int index = CountyList.FindIndex(x => x.Equals(GPSCounty));
 
-                    if (index > 0)
+                    if (index >= 0)
                     {
-                        App.PlantData.TargetPlant.TargetCounty = (Data.Counties)index;
-                    }
-                    else if (index == 0)
-                    {
-                        //somehow "None" was set, this should never happen
-                        throw new System.InvalidOperationException("County string can not be None");
+                        App.PlantData.TargetPlant.County = (Data.Counties)index;
                     }
                     else //index is negative, meaning we have a county but it could not be found
                     {
@@ -223,7 +218,7 @@ namespace PlantDB
         {
             labelStatus.Text = "Your location:";
 
-            if (App.PlantData.TargetPlant.TargetCounty != Data.Counties.All)
+            if (App.PlantData.TargetPlant.County != Data.Counties.All)
             {
                 labelResult.Text = "If this is not the location you want, use the Customize controls to choose a different county.";
             }
@@ -252,13 +247,11 @@ namespace PlantDB
                 if (clean.Contains(e.NewTextValue.ToLower()))
                     searchCounty.Add(c);
             }
-
-            //SearchCounty = ObservableCollection<string>(CountyList.FindAll(x => x.Contains(e.NewTextValue))) ;
         }
 
         private void SearchBar_ButtonPressed(object sender, EventArgs e)
         {
-            //Do I need to do anything here? I assume that when the user types the last char then the above method gets hit
+            //TODO Do I need to do anything here? I assume that when the user types the last char then the above method gets hit
             //if so the value I want is sender.Text
             ;
         }
@@ -269,8 +262,14 @@ namespace PlantDB
 
             if (index >= 0)
             {
-                App.PlantData.TargetPlant.TargetCounty = (Data.Counties)index;
+                App.PlantData.TargetPlant.County = (Data.Counties)index;
             }
+        }
+
+        private void OnPickerSelectedIndexChanged(object sender, EventArgs args)
+        {
+            //TODO The Location page doesn't currently show the number of matching plants. However, if it ever does, then at this point we need to call the SetPlant method to update the count.
+            //Otherwise, that gets called automatically when the user goes to one of the other pages.
 
         }
     }
