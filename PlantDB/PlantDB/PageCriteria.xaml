@@ -12,14 +12,12 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <!-- Using the BoolToStringConverter to pick the text color based on whether the button is highlighted or not. The TrueText 
-            should be the same value as MyGreen in App.xaml. Tried using that here as a dynamic resource but doesn't work-->
+            <!-- All this is to change the color of the buttons to match whether they were clicked or not. There's probably a better
+                 way to do this, but this is what came to mind.-->
+            <!-- The TrueText should be the same value as MyGreen in App.xaml. Tried using that here as a dynamic resource but doesn't work-->
             <local:YardSizeStringConverter x:Key="SizeButtonHighlight" 
                                      TrueText="#4CAF50"   
                                      FalseText="White"/>
-            <local:YardSizeStringConverter x:Key="SizeTextHighlight" 
-                                     TrueText="White"   
-                                     FalseText="#4CAF50"/>
             <local:YardSizeStringConverter x:Key="SizeButtonTextHighlight" 
                                      TrueText="White"   
                                      FalseText="#212121"/>
@@ -27,10 +25,14 @@
             <local:SunStringConverter x:Key="SunButtonHighlight" 
                                      TrueText="#4CAF50"   
                                      FalseText="White"/>
-            <local:SunStringConverter x:Key="SunTextHighlight" 
-                                     TrueText="White"   
-                                     FalseText="#4CAF50"/>
             <local:SunStringConverter x:Key="SunButtonTextHighlight" 
+                                     TrueText="White"   
+                                     FalseText="#212121"/>
+
+            <local:WaterStringConverter x:Key="WaterButtonHighlight" 
+                                     TrueText="#4CAF50"   
+                                     FalseText="White"/>
+            <local:WaterStringConverter x:Key="WaterButtonTextHighlight" 
                                      TrueText="White"   
                                      FalseText="#212121"/>
         </ResourceDictionary>
@@ -161,11 +163,10 @@
                         <Button x:Name="DryYard"
                                 WidthRequest="200"
                                 Text="Rarely"
-                                Command=""
-                                CommandParameter=""
-                                TextColor="Black"
-                                BackgroundColor="White"/>
-                        <Label Text="No watering or only in dry periods"/>
+                                Command="{Binding SetWaterReqsCmd}"
+                                CommandParameter="Dry"
+                                TextColor="{Binding YardWater, Converter={StaticResource WaterButtonTextHighlight}, ConverterParameter=Dry}"
+                                BackgroundColor="{Binding YardWater, Converter={StaticResource WaterButtonHighlight}, ConverterParameter=Dry}"/>                      <Label Text="No watering or only in dry periods"/>
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal"
@@ -173,11 +174,10 @@
                         <Button x:Name="SomeWaterYard"
                                 WidthRequest="200"
                                 Text="Occasionally"
-                                Command=""
-                                CommandParameter=""
-                                TextColor="Black"
-                                BackgroundColor="White"/>
-                        <Label Text="Water twice a month or less often"/>
+                                Command="{Binding SetWaterReqsCmd}"
+                                CommandParameter="Some"
+                                TextColor="{Binding YardWater, Converter={StaticResource WaterButtonTextHighlight}, ConverterParameter=Some}"
+                                BackgroundColor="{Binding YardWater, Converter={StaticResource WaterButtonHighlight}, ConverterParameter=Some}"/>                       <Label Text="Water twice a month or less often"/>
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal"
@@ -185,11 +185,10 @@
                         <Button x:Name="WetYard"
                                 WidthRequest="200"
                                 Text="Often"
-                                Command=""
-                                CommandParameter=""
-                                TextColor="Black"
-                                BackgroundColor="White"/>
-                        <Label Text="Water regularly"/>
+                                Command="{Binding SetWaterReqsCmd}"
+                                CommandParameter="Wet"
+                                TextColor="{Binding YardWater, Converter={StaticResource WaterButtonTextHighlight}, ConverterParameter=Wet}"
+                                BackgroundColor="{Binding YardWater, Converter={StaticResource WaterButtonHighlight}, ConverterParameter=Wet}"/>                       <Label Text="Water regularly, or my yard is fairly damp"/>
                     </StackLayout>
 
                 </StackLayout>

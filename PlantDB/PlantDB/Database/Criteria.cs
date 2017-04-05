@@ -31,10 +31,24 @@ namespace PlantDB.Data
             PlantTypes = PlantTypes.AllPlantTypes;
             Sun = SunRequirements.AllSunTypes;
             MaxHeight = 1000;
-
+            WaterReqs = WateringRequirements.NA;
         }
 
         #region fields
+        private WateringRequirements waterReqs;
+        public WateringRequirements WaterReqs
+        {
+            set
+            {
+                if (waterReqs != value)
+                {
+                    waterReqs = value;
+                    OnPropertyChanged();
+                }
+            }
+            get { return waterReqs; }
+        }
+
         private FloweringMonths floweringMonths;
         public FloweringMonths FloweringMonths
         {

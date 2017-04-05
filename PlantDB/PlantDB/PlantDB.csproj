@@ -46,6 +46,9 @@
     <Compile Include="Database\3PlantListViewModelProps.cs" />
     <Compile Include="Database\Criteria.cs" />
     <Compile Include="Database\PlantEnums.cs" />
+    <Compile Include="PageMoreInfo.xaml.cs">
+      <DependentUpon>PageMoreInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NotifyTask.cs" />
     <Compile Include="PageCriteria.xaml.cs">
       <DependentUpon>PageCriteria.xaml</DependentUpon>
@@ -149,6 +152,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="PageShoppingList.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PageMoreInfo.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

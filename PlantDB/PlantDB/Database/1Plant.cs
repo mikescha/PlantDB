@@ -526,9 +526,13 @@ namespace PlantDB.Data
 
             set
             {
-                this.inCart = value;
-                OnPropertyChanged();
+                if (this.inCart != value)
+                {
+                    this.inCart = (value >= 0) ? value : 0; //ensure that we don't decrement to negative numbers
+                    OnPropertyChanged();
+                }
                 SetNameInCart(this);
+
             }
         }
 

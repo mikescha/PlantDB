@@ -238,6 +238,12 @@ namespace PlantDB
         }
     }
 
+
+    #region NeedsHelp
+    /* This next block needs some work!!
+     * TODO these are basically repeating the same code as in the commands associated with the button, there has got to be a better way to have the button highlight if it is clicked
+     */
+
     // Takes one enum, and returns true if the parameter has the same bit set
     // One use: if the YardSize matches the button ID representing that YardSize then color the button to indicate it is pressed
     public class YardSizeStringConverter : IValueConverter
@@ -300,6 +306,40 @@ namespace PlantDB
             return false;
         }
     }
+
+
+    // Takes one enum, and returns true if the parameter has the same bit set
+    // One use: if the YardSize matches the button ID representing that YardSize then color the button to indicate it is pressed
+    public class WaterStringConverter : IValueConverter
+    {
+        public string TrueText { set; get; }
+        public string FalseText { set; get; }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            WateringRequirements target = (WateringRequirements)value;
+            WateringRequirements button = WateringRequirements.NA;
+
+            switch (parameter)
+            {
+                case "Dry":
+                    button = WateringRequirements.Occasional;
+                    break;
+                case "Some":
+                    button = WateringRequirements.Moderate;
+                    break;
+                case "Wet":
+                    button = WateringRequirements.Regular;
+                    break;
+            }
+
+            return target.HasFlag(button) ? TrueText : FalseText;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return false;
+        }
+    }
+    #endregion NeedsHelp
 
     // Takes a plant and returns an aggregation of all the animals that use it
     public class PlantToAttractsConverter : IValueConverter
@@ -457,4 +497,6 @@ namespace PlantDB
            return s.ToLower() == "any" ? -999 : value;
         }
     }
+
+
 }

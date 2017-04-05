@@ -33,6 +33,7 @@ namespace PlantDB.Data
                             .Where(p => IncludesTypes(TargetPlant.PlantTypes, p.PlantType))
                             .Where(p => IncludesSun(TargetPlant.Sun, p.Sun))
                             .Where(p => p.MaxHeight <= TargetPlant.MaxHeight)
+                            .Where(p => IncludesWaterReqs(TargetPlant.WaterReqs, p.WaterReqs))
                             .Where(p => CountiesMatch(TargetPlant.County, p.CountyString))
                             .Where(p => ElevationMatch(TargetPlant.Elevation, p))
                             .Where(p => p.MinTemp <= TargetPlant.MinTemp)
@@ -49,8 +50,17 @@ namespace PlantDB.Data
             PlantCount = newList.Count();
         }
 
-
+        
         #region Includes operations
+        //Returns true if the watering requirements match
+        //The target will be the least amount of water that the user wants to give it, so anything that uses less should be returned
+        //For instance, if the user wants "Occasional" then anything with Occasional or DroughtTolerant should be returned
+        //Higher value of enums use less water, so use Greater Than or Equal check
+        private bool IncludesWaterReqs(WateringRequirements target, WateringRequirements candidate)
+        {
+            return (candidate >= target);
+        }
+
         //Returns true if the target elevation is within range of the plant's elevations, or if 
         //there is no specific elevation target
         private bool ElevationMatch(int Target, Plant p)

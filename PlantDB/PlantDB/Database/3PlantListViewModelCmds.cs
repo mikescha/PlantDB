@@ -46,7 +46,8 @@ namespace PlantDB.Data
             //Set defaults for UX
             YardSize = YardSizeTypes.Big;
             YardSun = TargetPlant.Sun;
-            
+            YardWater = TargetPlant.WaterReqs;
+
             //Get all the data and init
             SetPlantList();
         }
@@ -225,6 +226,39 @@ namespace PlantDB.Data
                 return setYardSunCmd;
             }
         }
+
+        private Command setWaterReqsCmd;
+        public ICommand SetWaterReqsCmd
+        {
+            get
+            {
+                if (setWaterReqsCmd == null)
+                {
+                    setWaterReqsCmd = new Command<string>((buttonClicked) =>
+                    {
+                        switch (buttonClicked)
+                        {
+                            case "Dry":
+                                TargetPlant.WaterReqs = WateringRequirements.Occasional;
+                                break;
+                            case "Some":
+                                TargetPlant.WaterReqs = WateringRequirements.Moderate;
+                                break;
+                            case "Wet":
+                                TargetPlant.WaterReqs = WateringRequirements.Regular;
+                                break;
+                        }
+                        YardWater = TargetPlant.WaterReqs;
+                        SetPlantList();
+
+                    });
+                }
+                return setWaterReqsCmd;
+            }
+        }
+
+
+
 
         #region INPC
 

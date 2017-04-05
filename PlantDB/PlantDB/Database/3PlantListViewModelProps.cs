@@ -86,6 +86,23 @@ namespace PlantDB.Data
             }
         }
 
+        private WateringRequirements yardWater;
+        public WateringRequirements YardWater
+        {
+            get
+            {
+                return yardWater;
+            }
+            private set
+            {
+                if (yardWater != value)
+                {
+                    yardWater = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
     }
 
     #region Flags
