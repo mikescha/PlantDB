@@ -46,6 +46,7 @@
     <Compile Include="Database\3PlantListViewModelProps.cs" />
     <Compile Include="Database\Criteria.cs" />
     <Compile Include="Database\PlantEnums.cs" />
+    <Compile Include="PageLocationViewModel.cs" />
     <Compile Include="PageMoreInfo.xaml.cs">
       <DependentUpon>PageMoreInfo.xaml</DependentUpon>
     </Compile>

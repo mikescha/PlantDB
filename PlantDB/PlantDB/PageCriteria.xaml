@@ -5,6 +5,8 @@
              xmlns:local="clr-namespace:PlantDB"
              Title="Criteria"
              BindingContext="{x:Static local:App.PlantData}">
+    
+<!--             BindingContext="{x:Static local:App.PlantData}"-->
 
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness" iOS="0, 20, 0, 0" WinPhone="0,5,5,10" Android="5,5,5,5"/>
@@ -13,28 +15,28 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <!-- All this is to change the color of the buttons to match whether they were clicked or not. There's probably a better
-                 way to do this, but this is what came to mind.-->
+                     way to do this, but this is what came to mind.-->
             <!-- The TrueText should be the same value as MyGreen in App.xaml. Tried using that here as a dynamic resource but doesn't work-->
             <local:YardSizeStringConverter x:Key="SizeButtonHighlight" 
-                                     TrueText="#4CAF50"   
-                                     FalseText="White"/>
+                                         TrueText="#4CAF50"   
+                                         FalseText="White"/>
             <local:YardSizeStringConverter x:Key="SizeButtonTextHighlight" 
-                                     TrueText="White"   
-                                     FalseText="#212121"/>
+                                         TrueText="White"   
+                                         FalseText="#212121"/>
 
             <local:SunStringConverter x:Key="SunButtonHighlight" 
-                                     TrueText="#4CAF50"   
-                                     FalseText="White"/>
+                                         TrueText="#4CAF50"   
+                                         FalseText="White"/>
             <local:SunStringConverter x:Key="SunButtonTextHighlight" 
-                                     TrueText="White"   
-                                     FalseText="#212121"/>
+                                         TrueText="White"   
+                                         FalseText="#212121"/>
 
             <local:WaterStringConverter x:Key="WaterButtonHighlight" 
-                                     TrueText="#4CAF50"   
-                                     FalseText="White"/>
+                                         TrueText="#4CAF50"   
+                                         FalseText="White"/>
             <local:WaterStringConverter x:Key="WaterButtonTextHighlight" 
-                                     TrueText="White"   
-                                     FalseText="#212121"/>
+                                         TrueText="White"   
+                                         FalseText="#212121"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -42,7 +44,8 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -50,55 +53,73 @@
 
             <!--***** The header and button bar *****-->
             <StackLayout Grid.Row="0" Grid.Column="0">
-                <Label Text="{Binding PlantCount, StringFormat = '{0} matches'}"
-                       Style="{StaticResource H1Style}"
-                       HorizontalOptions="Start"/>
+                <Label BindingContext="{x:Static local:App.PlantData}"
+                       Text="{Binding PlantCount, StringFormat = '{0} matches'}"
+                           Style="{StaticResource H1Style}"
+                           HorizontalOptions="Start"/>
             </StackLayout>
+<!--
+            <StackLayout x:Name="critterStack"
+                             Grid.Row="1" Grid.Column="0">
+                <Button Text="Show Critter Area"
+                        BorderColor="White"
+                        Clicked="Button_ShowCritterArea_Clicked"/>
+                <StackLayout IsVisible="{Binding ShowCritterArea}">
+                    <Button x:Name="AttractHummingbirds"
+                            Text="Hummingbirds"/>
+                    <Button x:Name="AttractSongbirds"
+                            Text="Song birds"/>
+                    <Button x:Name="AttractPollinators"
+                            Text="Butterflies and bees"/>
+
+                </StackLayout>
+            </StackLayout>
+-->
 
             <StackLayout x:Name="buttonStack"
-                         Grid.Row="1" Grid.Column="0">
-                
+                             Grid.Row="2" Grid.Column="0"
+                         BindingContext="{x:Static local:App.PlantData}">
                 <!--***** Question 1: How large is your yard *****-->
                 <StackLayout x:Name="yardSizeStack">
                     <Label Text="How large is your yard?"
-                           Style="{StaticResource H2Style}"
-                           HeightRequest="50"
-                           VerticalTextAlignment="Center"
-                           BackgroundColor="{DynamicResource lightPrimaryColor}"/>
+                               Style="{StaticResource H2Style}"
+                               HeightRequest="50"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="{DynamicResource lightPrimaryColor}"/>
 
                     <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="Start">
+                                 HorizontalOptions="Start">
                         <Button x:Name="TinyYard"
-                            WidthRequest="200"
-                            Text="Tiny"
-                            Command="{Binding SetYardSizeCmd}"
-                            CommandParameter="Tiny"
-                            TextColor="{Binding YardSize, Converter={StaticResource SizeButtonTextHighlight}, ConverterParameter=Tiny}"
-                            BackgroundColor="{Binding YardSize, Converter={StaticResource SizeButtonHighlight}, ConverterParameter=Tiny}"/>
+                                WidthRequest="200"
+                                Text="Tiny"
+                                Command="{Binding SetYardSizeCmd}"
+                                CommandParameter="Tiny"
+                                TextColor="{Binding YardSize, Converter={StaticResource SizeButtonTextHighlight}, ConverterParameter=Tiny}"
+                                BackgroundColor="{Binding YardSize, Converter={StaticResource SizeButtonHighlight}, ConverterParameter=Tiny}"/>
                         <Label Text="Balcony or deck"/>
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="Start">
+                                 HorizontalOptions="Start">
                         <Button x:Name="SmallYard"
-                            WidthRequest="200"
-                            Text="Small"
-                            Command="{Binding SetYardSizeCmd}"
-                            CommandParameter="Small"
-                            TextColor="{Binding YardSize, Converter={StaticResource SizeButtonTextHighlight}, ConverterParameter=Small}"
-                            BackgroundColor="{Binding YardSize, Converter={StaticResource SizeButtonHighlight}, ConverterParameter=Small}"/>
+                                WidthRequest="200"
+                                Text="Small"
+                                Command="{Binding SetYardSizeCmd}"
+                                CommandParameter="Small"
+                                TextColor="{Binding YardSize, Converter={StaticResource SizeButtonTextHighlight}, ConverterParameter=Small}"
+                                BackgroundColor="{Binding YardSize, Converter={StaticResource SizeButtonHighlight}, ConverterParameter=Small}"/>
                         <Label Text="Typical city lot, up to 0.25 acre"/>
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="Start">
+                                 HorizontalOptions="Start">
                         <Button x:Name="MediumYard"
-                            WidthRequest="200"
-                            Text="Fairly big"
-                            Command="{Binding SetYardSizeCmd}"
-                            CommandParameter="Big"
-                            TextColor="{Binding YardSize, Converter={StaticResource SizeButtonTextHighlight}, ConverterParameter=Big}"
-                            BackgroundColor="{Binding YardSize, Converter={StaticResource SizeButtonHighlight}, ConverterParameter=Big}"/>
+                                WidthRequest="200"
+                                Text="Fairly big"
+                                Command="{Binding SetYardSizeCmd}"
+                                CommandParameter="Big"
+                                TextColor="{Binding YardSize, Converter={StaticResource SizeButtonTextHighlight}, ConverterParameter=Big}"
+                                BackgroundColor="{Binding YardSize, Converter={StaticResource SizeButtonHighlight}, ConverterParameter=Big}"/>
                         <Label Text="More than 0.25 acre"/>
                     </StackLayout>
 
@@ -107,44 +128,44 @@
                 <!--***** Question 2: How sunny is your yard *****-->
                 <StackLayout x:Name="yardSunStack">
                     <Label Text="How sunny is your yard?"
-                           Style="{StaticResource H2Style}"
-                           HeightRequest="50"
-                           VerticalTextAlignment="Center"
-                           BackgroundColor="{DynamicResource lightPrimaryColor}"/>
+                               Style="{StaticResource H2Style}"
+                               HeightRequest="50"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="{DynamicResource lightPrimaryColor}"/>
 
                     <StackLayout Orientation="Horizontal"
-                                 HorizontalOptions="Start">
+                                     HorizontalOptions="Start">
                         <Button x:Name="SunnyYard"
-                                WidthRequest="200"
-                                Text="Fairly sunny"
-                                Command="{Binding SetYardSunCmd}"
-                                CommandParameter="Full"
-                                TextColor="{Binding YardSun, Converter={StaticResource SunButtonTextHighlight}, ConverterParameter=Full}"
-                                BackgroundColor="{Binding YardSun, Converter={StaticResource SunButtonHighlight}, ConverterParameter=Full}"/>
+                                    WidthRequest="200"
+                                    Text="Fairly sunny"
+                                    Command="{Binding SetYardSunCmd}"
+                                    CommandParameter="Full"
+                                    TextColor="{Binding YardSun, Converter={StaticResource SunButtonTextHighlight}, ConverterParameter=Full}"
+                                    BackgroundColor="{Binding YardSun, Converter={StaticResource SunButtonHighlight}, ConverterParameter=Full}"/>
                         <Label Text="Gets sun all or most of the day"/>
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="Start">
+                                 HorizontalOptions="Start">
                         <Button x:Name="PartSunYard"
-                                WidthRequest="200"
-                                Text="Mixed sun and shade"
-                                Command="{Binding SetYardSunCmd}"
-                                CommandParameter="Part"
-                                TextColor="{Binding YardSun, Converter={StaticResource SunButtonTextHighlight}, ConverterParameter=Part}"
-                                BackgroundColor="{Binding YardSun, Converter={StaticResource SunButtonHighlight}, ConverterParameter=Part}"/>
+                                    WidthRequest="200"
+                                    Text="Mixed sun and shade"
+                                    Command="{Binding SetYardSunCmd}"
+                                    CommandParameter="Part"
+                                    TextColor="{Binding YardSun, Converter={StaticResource SunButtonTextHighlight}, ConverterParameter=Part}"
+                                    BackgroundColor="{Binding YardSun, Converter={StaticResource SunButtonHighlight}, ConverterParameter=Part}"/>
                         <Label Text="Get full sun for part of the day, such as only in the afternoon"/>
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal"
-                                 HorizontalOptions="Start">
+                                     HorizontalOptions="Start">
                         <Button x:Name="ShadeYard"
-                                WidthRequest="200"
-                                Text="Mostly shady"
-                                Command="{Binding SetYardSunCmd}"
-                                CommandParameter="Shade"
-                                TextColor="{Binding YardSun, Converter={StaticResource SunButtonTextHighlight}, ConverterParameter=Shade}"
-                                BackgroundColor="{Binding YardSun, Converter={StaticResource SunButtonHighlight}, ConverterParameter=Shade}"/>
+                                    WidthRequest="200"
+                                    Text="Mostly shady"
+                                    Command="{Binding SetYardSunCmd}"
+                                    CommandParameter="Shade"
+                                    TextColor="{Binding YardSun, Converter={StaticResource SunButtonTextHighlight}, ConverterParameter=Shade}"
+                                    BackgroundColor="{Binding YardSun, Converter={StaticResource SunButtonHighlight}, ConverterParameter=Shade}"/>
                         <Label Text="Full shade or sun filtered through leaves most of the day"/>
                     </StackLayout>
 
@@ -153,42 +174,45 @@
                 <!--***** Question 3: How much do you want to water *****-->
                 <StackLayout x:Name="yardWaterStack">
                     <Label Text="How much do you want to water?"
-                           Style="{StaticResource H2Style}"
-                           HeightRequest="50"
-                           VerticalTextAlignment="Center"
-                           BackgroundColor="{DynamicResource lightPrimaryColor}"/>
+                               Style="{StaticResource H2Style}"
+                               HeightRequest="50"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="{DynamicResource lightPrimaryColor}"/>
 
                     <StackLayout Orientation="Horizontal"
-                                 HorizontalOptions="Start">
+                                     HorizontalOptions="Start">
                         <Button x:Name="DryYard"
-                                WidthRequest="200"
-                                Text="Rarely"
-                                Command="{Binding SetWaterReqsCmd}"
-                                CommandParameter="Dry"
-                                TextColor="{Binding YardWater, Converter={StaticResource WaterButtonTextHighlight}, ConverterParameter=Dry}"
-                                BackgroundColor="{Binding YardWater, Converter={StaticResource WaterButtonHighlight}, ConverterParameter=Dry}"/>                      <Label Text="No watering or only in dry periods"/>
-                    </StackLayout>
-
-                    <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="Start">
-                        <Button x:Name="SomeWaterYard"
-                                WidthRequest="200"
-                                Text="Occasionally"
-                                Command="{Binding SetWaterReqsCmd}"
-                                CommandParameter="Some"
-                                TextColor="{Binding YardWater, Converter={StaticResource WaterButtonTextHighlight}, ConverterParameter=Some}"
-                                BackgroundColor="{Binding YardWater, Converter={StaticResource WaterButtonHighlight}, ConverterParameter=Some}"/>                       <Label Text="Water twice a month or less often"/>
+                                    WidthRequest="200"
+                                    Text="Rarely"
+                                    Command="{Binding SetWaterReqsCmd}"
+                                    CommandParameter="Dry"
+                                    TextColor="{Binding YardWater, Converter={StaticResource WaterButtonTextHighlight}, ConverterParameter=Dry}"
+                                    BackgroundColor="{Binding YardWater, Converter={StaticResource WaterButtonHighlight}, ConverterParameter=Dry}"/>
+                        <Label Text="No watering or only in dry periods"/>
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal"
                                  HorizontalOptions="Start">
+                        <Button x:Name="SomeWaterYard"
+                                    WidthRequest="200"
+                                    Text="Occasionally"
+                                    Command="{Binding SetWaterReqsCmd}"
+                                    CommandParameter="Some"
+                                    TextColor="{Binding YardWater, Converter={StaticResource WaterButtonTextHighlight}, ConverterParameter=Some}"
+                                    BackgroundColor="{Binding YardWater, Converter={StaticResource WaterButtonHighlight}, ConverterParameter=Some}"/>
+                        <Label Text="Water twice a month or less often"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal"
+                                     HorizontalOptions="Start">
                         <Button x:Name="WetYard"
-                                WidthRequest="200"
-                                Text="Often"
-                                Command="{Binding SetWaterReqsCmd}"
-                                CommandParameter="Wet"
-                                TextColor="{Binding YardWater, Converter={StaticResource WaterButtonTextHighlight}, ConverterParameter=Wet}"
-                                BackgroundColor="{Binding YardWater, Converter={StaticResource WaterButtonHighlight}, ConverterParameter=Wet}"/>                       <Label Text="Water regularly, or my yard is fairly damp"/>
+                                    WidthRequest="200"
+                                    Text="Often"
+                                    Command="{Binding SetWaterReqsCmd}"
+                                    CommandParameter="Wet"
+                                    TextColor="{Binding YardWater, Converter={StaticResource WaterButtonTextHighlight}, ConverterParameter=Wet}"
+                                    BackgroundColor="{Binding YardWater, Converter={StaticResource WaterButtonHighlight}, ConverterParameter=Wet}"/>
+                        <Label Text="Water regularly, or my yard is fairly damp"/>
                     </StackLayout>
 
                 </StackLayout>
@@ -198,18 +222,19 @@
 
                 <StackLayout>
                     <Label Text="Reset"
-                           Style="{StaticResource H2Style}"
-                           HeightRequest="50"
-                           VerticalTextAlignment="Center"
-                           BackgroundColor="{DynamicResource lightPrimaryColor}"/>
+                               Style="{StaticResource H2Style}"
+                               HeightRequest="50"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="{DynamicResource lightPrimaryColor}"/>
                     <Button x:Name="AllPlants"
-                            Text="Show all plants"
-                            WidthRequest="200"
-                            Command="{Binding ShowAllPlantsCmd}"
-                            TextColor="Black"
-                            BackgroundColor="White"/>
+                                Text="Show all plants"
+                                WidthRequest="200"
+                                Command="{Binding ShowAllPlantsCmd}"
+                                TextColor="Black"
+                                BackgroundColor="White"/>
                 </StackLayout>
             </StackLayout>
         </Grid>
     </ScrollView>
 </ContentPage>
+    

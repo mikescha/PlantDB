@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,9 +11,20 @@ namespace PlantDB
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PageCriteria : ContentPage
     {
-        public PageCriteria()
+
+        private PageLocationViewModel pageLocationViewModel
+
         {
+
+            get { return BindingContext as PageLocationViewModel; }
+
+        }
+
+        public PageCriteria()
+        {    
             InitializeComponent();
+            BindingContext = new PageLocationViewModel();
+
         }
 
         protected override void OnAppearing()
@@ -27,5 +37,16 @@ namespace PlantDB
             App.PlantData.ShowPlantList();
         }
 
+        private void Button_ShowCritterArea_Clicked(object sender, EventArgs e)
+        {
+            pageLocationViewModel.ShowCritterArea = !pageLocationViewModel.ShowCritterArea;
+        }
+
+        private void Button_ShowSizeArea_Clicked(object sender, EventArgs e)
+        {
+            pageLocationViewModel.ShowSizeArea = !pageLocationViewModel.ShowSizeArea;
+        }
+
+        
     }
 }
