@@ -28,6 +28,8 @@
             <local:NumberToBoolConverterOpposite x:Key="numberToBoolConverterOpposite" />
             <local:SunToStringConverter          x:Key="sunToStringConverter"/>
             <local:PlantToAttractsConverter      x:Key="plantToAttractsConverter"/>
+            <local:YesNoToBoolConverter          x:Key="yesNoToBoolConverter"/>
+            
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -62,6 +64,7 @@
                       BackgroundColor="{DynamicResource dividerColor}"
                       HasUnevenRows="True"
                       IsGroupingEnabled="True"
+                      HorizontalOptions="Fill"
                       GroupDisplayBinding="{Binding Key}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -76,6 +79,45 @@
                         </TextCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+<!--    
+            <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:Name="textCell">
+                            <StackLayout Orientation="Horizontal"
+                                         HorizontalOptions="End">
+                                <Label Text="{Binding NameInCart}"
+                                           TextColor="{Binding InCart, Converter={StaticResource ColorIfInList}}"
+                                           HorizontalOptions="End"/>
+
+
+                                <StackLayout Orientation="Horizontal"
+                                             HorizontalOptions="End">
+                                    <BoxView BackgroundColor="Red"
+                                             WidthRequest="10"
+                                             HeightRequest="10"
+                                             HorizontalOptions="End"
+                                             Color="{Binding AttractsHummingbirds, Converter={StaticResource yesNoToColorConverter}, ConverterParameter=Hummingbird}"/>
+                                    <BoxView BackgroundColor="Blue"
+                                             WidthRequest="10"
+                                             HeightRequest="10"
+                                             HorizontalOptions="End"
+                                             Color="{Binding AttractsSongbirds, Converter={StaticResource yesNoToColorConverter}, ConverterParameter=Songbird}"/>
+                                    <BoxView BackgroundColor="Yellow"
+                                             WidthRequest="10"
+                                             HeightRequest="10"
+                                             HorizontalOptions="End"
+                                             Color="{Binding AttractsButterflies, Converter={StaticResource yesNoToColorConverter}, ConverterParameter=Butterfly}"/>
+                                    <BoxView BackgroundColor="Red"
+                                             WidthRequest="10"
+                                             HeightRequest="10"
+                                             HorizontalOptions="End"
+                                             Color="{Binding AttractsBees, Converter={StaticResource yesNoToColorConverter}, ConverterParameter=Bee}"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+    -->            
             </ListView>
         </StackLayout>
 
@@ -89,12 +131,43 @@
                        Text="Select a plant to learn more about it."                    
                        IsVisible="{Binding Source={x:Reference PlantsListView}, Path=SelectedItem, Converter={StaticResource objectToBoolConverter}}"/>
                        <!-- ^^^IsVisible is true initially because nothing is selected by default. When something is selected then the binding changes to hide this-->
-
                 <StackLayout x:Name="PlantDetailLayout" 
                              BindingContext="{Binding Source={x:Reference PlantsListView}, Path=SelectedItem}"
                              IsVisible="{Binding Source={x:Reference PlantsListView}, Path=SelectedItem, Converter={StaticResource objectToBoolConverterOpposite}}">
-                    <Label Text="{Binding PlantName}"
-                           FontSize="Medium"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="{Binding PlantName}"
+                               VerticalOptions="StartAndExpand"
+                               FontSize="Medium"/>
+
+                        <StackLayout Grid.Row="0" Grid.Column="1"
+                                     Orientation="Horizontal"
+                                     HorizontalOptions="End"
+                                     VerticalOptions="StartAndExpand">
+                            <Image Source="icon_bee.png"
+                                   HeightRequest="32"
+                                   IsVisible="{Binding AttractsBees, Converter={StaticResource yesNoToBoolConverter}}"/>
+                            <Image Source="icon_butterfly.png" 
+                                   HeightRequest="32"
+                                   IsVisible="{Binding AttractsButterflies, Converter={StaticResource yesNoToBoolConverter}}"/>
+                            <Image Source="icon_hummingbird.png" 
+                                   HeightRequest="32"
+                                   IsVisible="{Binding AttractsHummingbirds, Converter={StaticResource yesNoToBoolConverter}}"/>
+                            <Image Source="icon_songbird.png" 
+                                   HeightRequest="32"
+                                   IsVisible="{Binding AttractsSongbirds, Converter={StaticResource yesNoToBoolConverter}}"/>
+
+                        </StackLayout>
+                    </Grid>
+                
                     <Label Text="{Binding ScientificName}" 
                            FontAttributes="Italic"/>
                     <Label Text="{Binding PlantTypeString, StringFormat='Type of plant: {0}'}"/>

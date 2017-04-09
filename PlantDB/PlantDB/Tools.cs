@@ -242,6 +242,7 @@ namespace PlantDB
     #region NeedsHelp
     /* This next block needs some work!!
      * TODO these are basically repeating the same code as in the commands associated with the button, there has got to be a better way to have the button highlight if it is clicked
+     * For instance, I could just have a bool for each button, and then update the bool when the button is clicked
      */
 
     // Takes one enum, and returns true if the parameter has the same bit set
@@ -498,5 +499,19 @@ namespace PlantDB
         }
     }
 
+
+    // Takes a YesNoMaybe value, and returns back True if the value is Yes, or False otherwise
+    public class YesNoToBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (YesNoMaybe)value == YesNoMaybe.Yes ? true : false;
+
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return false;
+        }
+    }
 
 }

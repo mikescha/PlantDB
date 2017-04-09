@@ -90,6 +90,18 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="..\PlantDB\Images\icon_bee.png">
+      <Link>icon_bee.png</Link>
+    </Content>
+    <Content Include="..\PlantDB\Images\icon_butterfly.png">
+      <Link>icon_butterfly.png</Link>
+    </Content>
+    <Content Include="..\PlantDB\Images\icon_hummingbird.png">
+      <Link>icon_hummingbird.png</Link>
+    </Content>
+    <Content Include="..\PlantDB\Images\icon_songbird.png">
+      <Link>icon_songbird.png</Link>
+    </Content>
     <Content Include="..\PlantDB\plant.db3">
       <Link>plant.db3</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
