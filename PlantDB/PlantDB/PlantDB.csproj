@@ -125,6 +125,13 @@
     <None Include="plant.db3" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Images\0_icon_bee.png" />
+    <EmbeddedResource Include="Images\0_icon_butterfly.png" />
+    <EmbeddedResource Include="Images\0_icon_hummingbird.png" />
+    <EmbeddedResource Include="Images\0_icon_songbird.png" />
+    <EmbeddedResource Include="Images\1_box_elder.png" />
+    <EmbeddedResource Include="Images\2_yarrow.png" />
+    <EmbeddedResource Include="Images\3_adiantum_capillusveneris.png" />
     <Content Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>

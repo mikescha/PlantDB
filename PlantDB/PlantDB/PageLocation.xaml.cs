@@ -200,6 +200,7 @@ namespace PlantDB
                 }
                 catch
                 {
+                    //TODO: What should happen here?
                     //if error occurred then we shouldn't have to do anything, as all of the variables are 
                     //initialized elsewhere, and error states are expected.
                 }

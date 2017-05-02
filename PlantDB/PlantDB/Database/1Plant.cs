@@ -536,6 +536,28 @@ namespace PlantDB.Data
             }
         }
 
+        //Image file for this plant
+        private string plantPic;
+        [Column("Image")]
+        public string PlantPic
+        {
+            get
+            {
+                return plantPic;
+            }
+
+            set
+            {
+                if (this.plantPic != value)
+                {
+                    this.plantPic = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
+
         //This is only set when the Plant Type is set. That code is responsible for converting the typed value from
         //the database into a string. This is used for grouping in the UI; since some of the enum values aren't pretty, 
         //we have to convert them to a string somewhere...

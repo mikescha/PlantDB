@@ -514,4 +514,44 @@ namespace PlantDB
         }
     }
 
+    //Converts a string representing a file to the associated resource file
+    [ContentProperty("Source")]
+    public class ImageResourceExtension : IMarkupExtension
+    {
+        public string Source { get; set; }
+
+        public object ProvideValue(IServiceProvider serviceProvider)
+        {
+            if (Source == null)
+            {
+                return null;
+            }
+            // Do your translation lookup here, using whatever method you require
+            Source = "PlantDB.Images." + Source;
+            var imageSource = ImageSource.FromResource(Source);
+
+            return imageSource;
+        }
+    }
+
+
+    public class StringToImageConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+            // Do your translation lookup here, using whatever method you require
+            string fileName = "PlantDB.Images." + (string) value + ".png";
+            var imageSource = ImageSource.FromResource(fileName);
+
+            return imageSource;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
 }
