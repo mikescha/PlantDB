@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 /*
  * Basic stuff we'll need to work with the plants. This will have enums and other fundamental building blocks
@@ -12,6 +14,11 @@ namespace PlantDB.Data
 {
     public partial class Plant : INotifyPropertyChanged
     {
+        //Constructor... anything needed here?
+        public Plant()
+        {
+        }
+
         string nameInCart;
         public string NameInCart
         {

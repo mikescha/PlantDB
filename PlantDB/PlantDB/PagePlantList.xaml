@@ -169,8 +169,13 @@
                         </StackLayout>
                     </Grid>
                     <Image Source="{Binding PlantPic, Converter={StaticResource stringToImageConverter}}"
-                               HorizontalOptions="Center"/>
-                
+                           HorizontalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Tapped="OnPlantImageTapped" />
+                        </Image.GestureRecognizers>
+                    </Image>
+
                     <Label Text="{Binding ScientificName}" 
                            FontAttributes="Italic"/>
                     <Label Text="{Binding PlantTypeString, StringFormat='Type of plant: {0}'}"/>

@@ -56,5 +56,16 @@ namespace PlantDB
         {
 
         }
+
+        //Opens new window with the image slideshow
+        async private void OnPlantImageTapped(object sender, EventArgs e)
+        {
+            Image image = (Image)sender;
+            Plant thePlant = (Plant)image.BindingContext;
+            if (thePlant.WebImages != null)
+            {
+                await Navigation.PushAsync(new PagePlantImages(thePlant.WebImages));
+            }
+        }
     }
 }

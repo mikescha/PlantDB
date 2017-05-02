@@ -57,6 +57,9 @@
     <Compile Include="PageLocation.xaml.cs">
       <DependentUpon>PageLocation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PagePlantImages.xaml.cs">
+      <DependentUpon>PagePlantImages.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PagePlantList.xaml.cs">
       <DependentUpon>PagePlantList.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,8 @@
     <EmbeddedResource Include="Images\1_box_elder.png" />
     <EmbeddedResource Include="Images\2_yarrow.png" />
     <EmbeddedResource Include="Images\3_adiantum_capillusveneris.png" />
+    <EmbeddedResource Include="Images\4_adiantum_jordanii.png" />
+    <EmbeddedResource Include="Images\5_aesculus_californica.png" />
     <Content Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +171,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="PageMoreInfo.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="PagePlantImages.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

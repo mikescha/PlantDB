@@ -556,7 +556,25 @@ namespace PlantDB.Data
             }
         }
 
+        //links to photos on the web for this plant
+        private string webImages;
+        [Column("WebImages")]
+        public string WebImages
+        {
+            get
+            {
+                return webImages;
+            }
 
+            set
+            {
+                if (this.webImages != value)
+                {
+                    this.webImages = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         //This is only set when the Plant Type is set. That code is responsible for converting the typed value from
         //the database into a string. This is used for grouping in the UI; since some of the enum values aren't pretty, 
