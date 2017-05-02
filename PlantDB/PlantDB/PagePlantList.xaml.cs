@@ -14,6 +14,8 @@ namespace PlantDB
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PagePlantList : ContentPage
     {
+        object selectedItem;
+
         public PagePlantList()
         {
             InitializeComponent();
@@ -22,7 +24,11 @@ namespace PlantDB
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            PlantsListView.SelectedItem = null;
+            PlantsListView.SelectedItem = selectedItem;
+            if (selectedItem != null)
+            {
+                selectedItem = null;
+            }
             App.PlantData.ShowPlantList();
         }
 
@@ -41,8 +47,10 @@ namespace PlantDB
         {
             Label label = (Label)sender;
             Plant thePlant = (Plant)label.BindingContext;
+
             if (thePlant.PlantURL != null)
             {
+                selectedItem = PlantsListView.SelectedItem;
                 await Navigation.PushAsync(new PageMoreInfo(thePlant.PlantURL));
             }
             else
@@ -64,6 +72,7 @@ namespace PlantDB
             Plant thePlant = (Plant)image.BindingContext;
             if (thePlant.WebImages != null)
             {
+                selectedItem = PlantsListView.SelectedItem;
                 await Navigation.PushAsync(new PagePlantImages(thePlant.WebImages));
             }
         }
