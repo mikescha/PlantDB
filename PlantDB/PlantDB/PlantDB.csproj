@@ -140,6 +140,14 @@
     <EmbeddedResource Include="Images\3_adiantum_capillusveneris.png" />
     <EmbeddedResource Include="Images\4_adiantum_jordanii.png" />
     <EmbeddedResource Include="Images\5_aesculus_californica.png" />
+    <EmbeddedResource Include="Images\10_arctostaphylos_crustacea.png" />
+    <EmbeddedResource Include="Images\11_arctostaphylos_glandulosa.png" />
+    <EmbeddedResource Include="Images\12_arctostaphylos_glauca.png" />
+    <EmbeddedResource Include="Images\13_arctostaphylos_manzanita.png" />
+    <EmbeddedResource Include="Images\6_agrostis_exarata.png" />
+    <EmbeddedResource Include="Images\7_alnus_rhombifolia.png" />
+    <EmbeddedResource Include="Images\8_aquilegia_formosa.png" />
+    <EmbeddedResource Include="Images\9_arbutus_menziesii.png" />
     <Content Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
