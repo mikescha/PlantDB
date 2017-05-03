@@ -73,7 +73,7 @@ namespace PlantDB
             if (thePlant.WebImages != null)
             {
                 selectedItem = PlantsListView.SelectedItem;
-                await Navigation.PushAsync(new PagePlantImages(thePlant.WebImages));
+                await Navigation.PushAsync(new PagePlantImages(thePlant.WebImages, thePlant.PlantName));
             }
         }
     }

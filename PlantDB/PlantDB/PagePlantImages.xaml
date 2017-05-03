@@ -1,11 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PlantDB.PagePlantImages">
+             x:Class="PlantDB.PagePlantImages"
+             xmlns:cv="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView">
 
     <StackLayout>
-        <ListView x:Name="ImageListView" 
-                  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+        <Label x:Name="PlantName"
+               FontSize="Large"/>
+
+        <cv:CarouselView x:Name="ImageCarousel">
+            <cv:CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding}"
+                           Aspect="AspectFill"/>
+                </DataTemplate>
+            </cv:CarouselView.ItemTemplate>
+        </cv:CarouselView>
+
     </StackLayout>
-    
+     
 </ContentPage>
